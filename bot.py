@@ -9,7 +9,7 @@ TOKEN = "8671858126:AAGtX_9zTSB6IJOVAcNdZAELTwAXZe6p7tc"
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # Кнопки
     keyboard = [
-        [InlineKeyboardButton("🎮 Играть!", web_app=WebAppInfo(url="https://sindzii7.github.io/casino_bot/"))],
+        [InlineKeyboardButton("🎮 Играть!", web_app=WebAppInfo(url="https://sindzii7.github.io/casino_bot/?v=2/"))],
         [InlineKeyboardButton("📢 Канал", url="https://t.me/your_channel")],
         [InlineKeyboardButton("💬 Присоединиться к чату", url="https://t.me/your_chat")],
         [InlineKeyboardButton("🆘 Поддержка", url="https://t.me/klrpl")]

@@ -1,231 +1,473 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PvP Рулетка</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Rolls</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
-        
+
         body {
-            background: #0a0e17;
-            color: white;
+            background: #0C0F15;
+            color: #FFFFFF;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             min-height: 100vh;
-            padding-bottom: 70px;
+            padding: 16px;
+            padding-bottom: 80px;
+            line-height: 1.4;
         }
-        
-        .header {
+
+        /* Статус бар */
+        .status-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px;
-            background: #151e2a;
-            border-bottom: 1px solid #2a3440;
+            margin-bottom: 24px;
+            padding: 8px 0;
         }
-        
-        .user-info {
+
+        .user {
             display: flex;
             align-items: center;
             gap: 10px;
         }
-        
+
         .avatar {
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            background: linear-gradient(135deg, #2A3F5F, #1A2A3A);
+            border: 1px solid rgba(255, 215, 0, 0.2);
         }
-        
-        .username {
-            font-weight: 600;
+
+        .user-name {
+            font-weight: 500;
+            font-size: 16px;
+            color: #FFFFFF;
         }
-        
-        .balance {
-            background: rgba(255,215,0,0.15);
-            padding: 8px 15px;
-            border-radius: 20px;
-            border: 1px solid gold;
-            color: gold;
+
+        .user-balance {
+            font-size: 14px;
+            color: #8E8E93;
         }
-        
-        .container {
-            padding: 15px;
+
+        .settings {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #1C1F26;
+            border-radius: 50%;
+            color: #8E8E93;
+            font-size: 20px;
+            cursor: pointer;
         }
-        
-        /* Рулетка */
-        .roulette-wrapper {
-            background: #151e2a;
-            border-radius: 20px;
+
+        /* Основной контент */
+        .content {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        /* Карточка игры */
+        .game-card {
+            background: #14171F;
+            border-radius: 24px;
             padding: 20px;
             margin-bottom: 20px;
-            position: relative;
+            border: 1px solid #2A2F3A;
         }
-        
-        .wheel-container {
-            width: 280px;
-            height: 280px;
-            margin: 0 auto 20px;
-            position: relative;
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
         }
-        
+
+        .game-title {
+            font-weight: 600;
+            font-size: 18px;
+            color: #FFFFFF;
+        }
+
+        .total-bet {
+            background: #1E222B;
+            padding: 6px 12px;
+            border-radius: 30px;
+            font-size: 14px;
+            color: #FFD700;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        /* Колесо */
+        .wheel-wrapper {
+            position: relative;
+            width: 240px;
+            height: 240px;
+            margin: 20px auto 30px;
+        }
+
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(
+                #4A6FA5 0deg 90deg,
+                #6C5B7B 90deg 180deg,
+                #C06C84 180deg 270deg,
+                #F8B195 270deg 360deg
+            );
+            border: 3px solid #FFD700;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+            transition: transform 3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
         .arrow {
             position: absolute;
-            top: -10px;
+            top: -15px;
             left: 50%;
             transform: translateX(-50%);
             width: 0;
             height: 0;
             border-left: 15px solid transparent;
             border-right: 15px solid transparent;
-            border-top: 30px solid gold;
-            z-index: 20;
-            filter: drop-shadow(0 0 5px gold);
+            border-top: 30px solid #FFD700;
+            filter: drop-shadow(0 0 10px #FFD700);
+            z-index: 10;
         }
-        
-        .wheel {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: conic-gradient(
-                #4CAF50 0deg 90deg,
-                #2196F3 90deg 180deg,
-                #9C27B0 180deg 270deg,
-                #f44336 270deg 360deg
-            );
-            border: 4px solid gold;
-            box-shadow: 0 0 20px rgba(255,215,0,0.3);
-            transition: transform 3s cubic-bezier(0.25, 0.1, 0.15, 1);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .wheel::after {
-            content: '';
+
+        .wheel-center {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 40px;
-            height: 40px;
-            background: gold;
+            width: 50px;
+            height: 50px;
+            background: #14171F;
             border-radius: 50%;
-            border: 3px solid white;
+            border: 2px solid #FFD700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFD700;
+            font-weight: 600;
+            z-index: 5;
         }
-        
-        /* Панель ставок */
-        .bets-panel {
-            background: #1f2a36;
-            border-radius: 15px;
-            padding: 15px;
+
+        /* Таймер */
+        .timer-block {
+            text-align: center;
             margin: 20px 0;
         }
-        
+
         .timer {
-            text-align: center;
             font-size: 48px;
             font-weight: 700;
-            color: gold;
-            margin: 10px 0;
-            text-shadow: 0 0 10px rgba(255,215,0,0.5);
+            color: #FFD700;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            letter-spacing: 2px;
         }
-        
-        .players-list {
-            margin: 15px 0;
-            max-height: 200px;
-            overflow-y: auto;
+
+        .timer-label {
+            font-size: 14px;
+            color: #8E8E93;
+            margin-top: 4px;
         }
-        
-        .player-item {
+
+        /* Список игроков */
+        .players-section {
+            background: #14171F;
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #2A2F3A;
+        }
+
+        .players-header {
+            display: flex;
+            justify-content: space-between;
+            color: #8E8E93;
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .player-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px;
-            background: #2a3440;
-            border-radius: 10px;
-            margin-bottom: 8px;
+            padding: 12px 0;
+            border-bottom: 1px solid #2A2F3A;
         }
-        
+
+        .player-row:last-child {
+            border-bottom: none;
+        }
+
         .player-info {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
-        
+
         .player-avatar-small {
-            width: 30px;
-            height: 30px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #45aaf2, #2d98da);
+            background: linear-gradient(135deg, #2A3F5F, #1A2A3A);
         }
-        
-        .bet-amount {
-            color: #45aaf2;
+
+        .player-name {
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .player-bet {
+            color: #FFD700;
             font-weight: 600;
         }
-        
+
+        .player-chance {
+            color: #4CAF50;
+            font-size: 14px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 30px;
+            color: #8E8E93;
+            font-size: 15px;
+        }
+
+        /* Панель ставок */
+        .bet-panel {
+            background: #14171F;
+            border-radius: 24px;
+            padding: 20px;
+            border: 1px solid #2A2F3A;
+        }
+
+        .bet-label {
+            color: #8E8E93;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
         .bet-controls {
             display: flex;
-            gap: 10px;
-            margin: 15px 0;
+            gap: 12px;
+            margin-bottom: 20px;
         }
-        
+
         .bet-input {
             flex: 1;
-            padding: 15px;
-            border-radius: 10px;
-            border: 1px solid gold;
-            background: #1f2a36;
-            color: white;
+            background: #1E222B;
+            border: 1px solid #2A2F3A;
+            border-radius: 16px;
+            padding: 16px;
+            color: #FFFFFF;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .bet-input:focus {
+            outline: none;
+            border-color: #FFD700;
+        }
+
+        .bet-button {
+            background: #FFD700;
+            color: #0C0F15;
+            border: none;
+            border-radius: 16px;
+            padding: 0 24px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .bet-button:active {
+            transform: scale(0.95);
+            opacity: 0.9;
+        }
+
+        .bet-button:disabled {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .spin-button {
+            width: 100%;
+            background: #2A3F5F;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 16px;
+            padding: 18px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .spin-button:active {
+            transform: scale(0.98);
+            background: #1A2A3A;
+        }
+
+        .spin-button:disabled {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        /* Профиль */
+        .profile-card {
+            background: #14171F;
+            border-radius: 24px;
+            padding: 24px;
+            border: 1px solid #2A2F3A;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .profile-avatar-large {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2A3F5F, #1A2A3A);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .profile-name-large {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .profile-balance {
+            font-size: 15px;
+            color: #8E8E93;
+        }
+
+        .profile-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #2A2F3A;
+        }
+
+        .profile-row:last-child {
+            border-bottom: none;
+        }
+
+        .profile-label {
+            color: #8E8E93;
+            font-size: 15px;
+        }
+
+        .profile-value {
+            font-weight: 600;
+            color: #FFD700;
+        }
+
+        .deposit-button {
+            width: 100%;
+            background: #FFD700;
+            color: #0C0F15;
+            border: none;
+            border-radius: 16px;
+            padding: 18px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 24px;
+        }
+
+        /* Настройки */
+        .settings-card {
+            background: #14171F;
+            border-radius: 24px;
+            padding: 24px;
+            border: 1px solid #2A2F3A;
+        }
+
+        .settings-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #2A2F3A;
+        }
+
+        .settings-row:last-child {
+            border-bottom: none;
+        }
+
+        .settings-label {
             font-size: 16px;
         }
-        
-        .bet-btn {
-            padding: 15px 25px;
-            background: gold;
-            color: #0a0e17;
-            border: none;
-            border-radius: 10px;
-            font-weight: 700;
+
+        .toggle {
+            width: 44px;
+            height: 24px;
+            background: #2A2F3A;
+            border-radius: 30px;
+            position: relative;
             cursor: pointer;
         }
-        
-        .spin-btn {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, #4CAF50, #45a049);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 18px;
+
+        .toggle.active {
+            background: #4CAF50;
+        }
+
+        .toggle::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #FFFFFF;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: 0.2s;
+        }
+
+        .toggle.active::after {
+            left: 22px;
+        }
+
+        .language-select {
+            display: flex;
+            gap: 12px;
+        }
+
+        .lang-btn {
+            padding: 8px 16px;
+            border-radius: 30px;
+            background: #1E222B;
+            color: #8E8E93;
+            font-size: 14px;
             cursor: pointer;
-            margin: 10px 0;
+            border: 1px solid #2A2F3A;
         }
-        
-        .spin-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+
+        .lang-btn.active {
+            background: #FFD700;
+            color: #0C0F15;
+            border-color: #FFD700;
         }
-        
-        .result {
-            text-align: center;
-            padding: 15px;
-            background: #1f2a36;
-            border-radius: 10px;
-            margin-top: 15px;
-            font-size: 18px;
-        }
-        
-        .winner {
-            color: gold;
-            font-weight: 700;
-        }
-        
+
         /* Нижнее меню */
         .bottom-menu {
             position: fixed;
@@ -234,207 +476,342 @@
             right: 0;
             display: flex;
             justify-content: space-around;
-            padding: 12px;
-            background: #151e2a;
-            border-top: 1px solid #2a3440;
+            padding: 12px 16px 20px;
+            background: #0C0F15;
+            border-top: 1px solid #2A2F3A;
         }
-        
+
         .menu-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 5px;
-            color: #888;
+            gap: 4px;
+            color: #8E8E93;
             font-size: 12px;
             cursor: pointer;
+            transition: color 0.2s;
         }
-        
+
         .menu-item.active {
-            color: gold;
+            color: #FFD700;
         }
-        
+
         .menu-icon {
             font-size: 22px;
+        }
+
+        /* Скрытие секций */
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="user-info">
+    <!-- Статус бар -->
+    <div class="status-bar">
+        <div class="user" onclick="showSection('profile')">
             <div class="avatar"></div>
-            <span class="username" id="username">@klrpl</span>
-        </div>
-        <div class="balance" id="balance">1000 💰</div>
-    </div>
-    
-    <div class="container">
-        <div class="roulette-wrapper">
-            <!-- Рулетка со стрелкой -->
-            <div class="wheel-container">
-                <div class="arrow"></div>
-                <div class="wheel" id="wheel"></div>
+            <div>
+                <div class="user-name" id="username">@klrpl</div>
+                <div class="user-balance" id="headerBalance">0 TON</div>
             </div>
-            
-            <!-- Таймер -->
-            <div class="timer" id="timer">10</div>
-            
+        </div>
+        <div class="settings" onclick="showSection('settings')">
+            ⚙️
+        </div>
+    </div>
+
+    <!-- Основной контент -->
+    <div class="content">
+        <!-- Секция Рулетка (главная) -->
+        <div id="rouletteSection" class="section active">
+            <!-- Карточка игры -->
+            <div class="game-card">
+                <div class="game-header">
+                    <span class="game-title">🎡 PvP Рулетка</span>
+                    <span class="total-bet" id="totalBet">0 TON</span>
+                </div>
+
+                <!-- Колесо -->
+                <div class="wheel-wrapper">
+                    <div class="arrow"></div>
+                    <div class="wheel" id="wheel"></div>
+                    <div class="wheel-center">?</div>
+                </div>
+
+                <!-- Таймер -->
+                <div class="timer-block">
+                    <div class="timer" id="timer">10</div>
+                    <div class="timer-label">до начала</div>
+                </div>
+            </div>
+
+            <!-- Список игроков -->
+            <div class="players-section">
+                <div class="players-header">
+                    <span>Игроки</span>
+                    <span>Ставка / Шанс</span>
+                </div>
+                <div id="playersList">
+                    <div class="empty-state">
+                        👥 Пока нет игроков<br>
+                        Сделайте первую ставку
+                    </div>
+                </div>
+            </div>
+
             <!-- Панель ставок -->
-            <div class="bets-panel">
-                <div style="margin-bottom: 10px; color: gold;">👥 Игроки:</div>
-                <div class="players-list" id="playersList">
-                    <!-- Список игроков будет тут -->
-                </div>
-                
-                <!-- Ввод ставки -->
+            <div class="bet-panel">
+                <div class="bet-label">💰 Ваша ставка</div>
                 <div class="bet-controls">
-                    <input type="number" id="betAmount" class="bet-input" value="10" min="1">
-                    <button class="bet-btn" onclick="placeBet()">💰 Сделать ставку</button>
+                    <input type="number" id="betAmount" class="bet-input" value="1" min="0.1" step="0.1" placeholder="TON">
+                    <button class="bet-button" onclick="placeBet()">↗️</button>
                 </div>
+                <button class="spin-button" id="spinBtn" onclick="spinRoulette()" disabled>
+                    🎲 Запустить рулетку
+                </button>
             </div>
-            
-            <!-- Кнопка запуска -->
-            <button class="spin-btn" id="spinBtn" onclick="startRoulette()" disabled>🎲 Ожидание игроков (нужно 2+)</button>
-            
-            <!-- Результат -->
-            <div class="result" id="result">
-                ⏳ Сделайте ставку!
+        </div>
+
+        <!-- Секция Профиль -->
+        <div id="profileSection" class="section">
+            <div class="profile-card">
+                <div class="profile-header">
+                    <div class="profile-avatar-large"></div>
+                    <div>
+                        <div class="profile-name-large" id="profileName">@klrpl</div>
+                        <div class="profile-balance" id="profileBalance">0 TON</div>
+                    </div>
+                </div>
+
+                <div class="profile-row">
+                    <span class="profile-label">💰 Баланс</span>
+                    <span class="profile-value" id="profileBalanceValue">0 TON</span>
+                </div>
+
+                <div class="profile-row">
+                    <span class="profile-label">🎁 Инвентарь</span>
+                    <span class="profile-value">0</span>
+                </div>
+
+                <div class="profile-row">
+                    <span class="profile-label">👥 Рефералы</span>
+                    <span class="profile-value">0</span>
+                </div>
+
+                <div class="profile-row">
+                    <span class="profile-label">🏆 Побед</span>
+                    <span class="profile-value" id="winsCount">0</span>
+                </div>
+
+                <button class="deposit-button" onclick="deposit()">
+                    💳 Пополнить
+                </button>
+            </div>
+        </div>
+
+        <!-- Секция Настройки -->
+        <div id="settingsSection" class="section">
+            <div class="settings-card">
+                <div class="settings-row">
+                    <span class="settings-label">🤳 Тактильный отклик</span>
+                    <div class="toggle active" onclick="toggleHaptic(this)"></div>
+                </div>
+
+                <div class="settings-row">
+                    <span class="settings-label">🌐 Язык</span>
+                    <div class="language-select">
+                        <span class="lang-btn active" onclick="setLanguage('ru')">Русский</span>
+                        <span class="lang-btn" onclick="setLanguage('en')">English</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    
+
     <!-- Нижнее меню -->
     <div class="bottom-menu">
-        <div class="menu-item active">🎮 Игры</div>
-        <div class="menu-item">🎡 Рулетка</div>
-        <div class="menu-item">🎁 Розыгрыши</div>
-        <div class="menu-item">👤 Профиль</div>
+        <div class="menu-item active" onclick="showSection('roulette')">
+            <span class="menu-icon">🎡</span>
+            <span>Рулетка</span>
+        </div>
+        <div class="menu-item" onclick="showSection('profile')">
+            <span class="menu-icon">👤</span>
+            <span>Профиль</span>
+        </div>
+        <div class="menu-item" onclick="showSection('settings')">
+            <span class="menu-icon">⚙️</span>
+            <span>Настройки</span>
+        </div>
     </div>
-    
+
     <script>
         // Telegram WebApp
         let tg = window.Telegram.WebApp;
         tg.ready();
         tg.expand();
-        
+
         // Данные
         let balance = 1000;
+        let wins = 0;
         let players = [];
-        let timerInterval = null;
+        let timerInterval;
         let timeLeft = 10;
-        let isSpinning = false;
-        
-        // Получаем пользователя
+        let currentUser = '@klrpl';
+        let hapticEnabled = true;
+
+        // Получаем данные пользователя
         let user = tg.initDataUnsafe?.user;
-        let currentUser = '@' + (user?.username || user?.first_name || 'klrpl');
-        document.getElementById('username').textContent = currentUser;
-        
-        // Обновление списка игроков
-        function updatePlayersList() {
-            let list = document.getElementById('playersList');
-            if(players.length === 0) {
-                list.innerHTML = '<div style="text-align: center; padding: 20px; color: #888;">👥 Нет игроков</div>';
-                return;
-            }
-            
-            let html = '';
-            players.forEach(p => {
-                html += `
-                    <div class="player-item">
-                        <div class="player-info">
-                            <div class="player-avatar-small"></div>
-                            <div>
-                                <div>${p.name}</div>
-                                <div style="font-size: 12px; color: #888;">ставка</div>
-                            </div>
-                        </div>
-                        <div class="bet-amount">${p.bet} 💰</div>
-                    </div>
-                `;
-            });
-            list.innerHTML = html;
-            
-            // Обновляем кнопку
-            let spinBtn = document.getElementById('spinBtn');
-            if(players.length >= 2) {
-                spinBtn.disabled = false;
-                spinBtn.textContent = '🎲 ЗАПУСТИТЬ РУЛЕТКУ';
-            } else {
-                spinBtn.disabled = true;
-                spinBtn.textContent = `🎲 Ожидание игроков (нужно ${2 - players.length})`;
-            }
+        if (user) {
+            currentUser = '@' + (user.username || user.first_name || 'klrpl');
         }
-        
+
+        // Обновляем имена
+        document.getElementById('username').textContent = currentUser;
+        document.getElementById('profileName').textContent = currentUser;
+        updateBalance();
+
+        // Переключение секций
+        function showSection(section) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(section + 'Section').classList.add('active');
+            
+            document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            
+            if (hapticEnabled) tg.HapticFeedback.selectionChanged();
+        }
+
+        // Обновление баланса
+        function updateBalance() {
+            let balanceText = balance + ' TON';
+            document.getElementById('headerBalance').textContent = balanceText;
+            document.getElementById('profileBalance').textContent = balanceText;
+            document.getElementById('profileBalanceValue').textContent = balanceText;
+            document.getElementById('winsCount').textContent = wins;
+        }
+
         // Сделать ставку
         function placeBet() {
-            let bet = parseInt(document.getElementById('betAmount').value);
+            let bet = parseFloat(document.getElementById('betAmount').value);
             
-            if(bet > balance) {
-                alert('Недостаточно средств!');
+            if (bet > balance) {
+                tg.showPopup({
+                    title: 'Ошибка',
+                    message: 'Недостаточно средств',
+                    buttons: [{type: 'ok'}]
+                });
                 return;
             }
-            
+
             // Проверяем, есть ли уже игрок
             let existingPlayer = players.find(p => p.name === currentUser);
-            if(existingPlayer) {
-                alert('Вы уже сделали ставку!');
+            if (existingPlayer) {
+                tg.showPopup({
+                    title: 'Ошибка',
+                    message: 'Вы уже сделали ставку',
+                    buttons: [{type: 'ok'}]
+                });
                 return;
             }
-            
+
             // Добавляем игрока
             players.push({
                 name: currentUser,
                 bet: bet
             });
-            
+
             balance -= bet;
-            document.getElementById('balance').innerHTML = balance + ' 💰';
-            
-            // Обновляем список
+            updateBalance();
             updatePlayersList();
-            
-            // Сбрасываем таймер
             resetTimer();
-            
-            tg.HapticFeedback.impactOccurred('medium');
+            updateTotalBet();
+
+            if (hapticEnabled) tg.HapticFeedback.impactOccurred('medium');
         }
-        
+
+        // Обновление списка игроков
+        function updatePlayersList() {
+            let list = document.getElementById('playersList');
+            
+            if (players.length === 0) {
+                list.innerHTML = '<div class="empty-state">👥 Пока нет игроков<br>Сделайте первую ставку</div>';
+                document.getElementById('spinBtn').disabled = true;
+                return;
+            }
+
+            let totalBet = players.reduce((sum, p) => sum + p.bet, 0);
+            let html = '';
+
+            players.forEach(p => {
+                let chance = ((p.bet / totalBet) * 100).toFixed(1);
+                html += `
+                    <div class="player-row">
+                        <div class="player-info">
+                            <div class="player-avatar-small"></div>
+                            <span class="player-name">${p.name}</span>
+                        </div>
+                        <div>
+                            <span class="player-bet">${p.bet} TON</span>
+                            <span class="player-chance"> ${chance}%</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            list.innerHTML = html;
+            
+            // Активируем кнопку если 2+ игрока
+            document.getElementById('spinBtn').disabled = players.length < 2;
+        }
+
+        // Обновление общей ставки
+        function updateTotalBet() {
+            let total = players.reduce((sum, p) => sum + p.bet, 0);
+            document.getElementById('totalBet').textContent = total + ' TON';
+        }
+
         // Таймер
         function startTimer() {
             timeLeft = 10;
-            document.getElementById('timer').innerHTML = timeLeft;
+            document.getElementById('timer').textContent = timeLeft;
             
-            if(timerInterval) clearInterval(timerInterval);
+            if (timerInterval) clearInterval(timerInterval);
             
             timerInterval = setInterval(() => {
                 timeLeft--;
-                document.getElementById('timer').innerHTML = timeLeft;
+                document.getElementById('timer').textContent = timeLeft;
                 
-                if(timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    if(players.length >= 2 && !isSpinning) {
-                        startRoulette();
-                    }
+                if (timeLeft <= 0 && players.length >= 2) {
+                    spinRoulette();
                 }
             }, 1000);
         }
-        
+
         function resetTimer() {
             timeLeft = 10;
-            document.getElementById('timer').innerHTML = timeLeft;
-            if(timerInterval) {
+            document.getElementById('timer').textContent = timeLeft;
+            if (timerInterval) {
                 clearInterval(timerInterval);
                 startTimer();
             }
         }
-        
+
         // Запуск рулетки
-        function startRoulette() {
-            if(players.length < 2) {
-                alert('Нужно минимум 2 игрока!');
+        function spinRoulette() {
+            if (players.length < 2) {
+                tg.showPopup({
+                    title: 'Ошибка',
+                    message: 'Нужно минимум 2 игрока',
+                    buttons: [{type: 'ok'}]
+                });
                 return;
             }
-            
-            isSpinning = true;
+
             clearInterval(timerInterval);
             
             // Выбираем победителя
@@ -442,54 +819,87 @@
             let random = Math.random() * totalBet;
             let cumulative = 0;
             let winner = null;
-            
-            for(let player of players) {
+
+            for (let player of players) {
                 cumulative += player.bet;
-                if(random <= cumulative) {
+                if (random <= cumulative) {
                     winner = player;
                     break;
                 }
             }
-            
+
             // Анимация колеса
             let wheel = document.getElementById('wheel');
             let spins = 5 + Math.random() * 5;
             let degrees = spins * 360 + (Math.random() * 360);
             wheel.style.transform = `rotate(${degrees}deg)`;
-            
-            // Показываем результат через 3 секунды
+
+            if (hapticEnabled) tg.HapticFeedback.impactOccurred('heavy');
+
+            // Результат
             setTimeout(() => {
-                winner.bet = totalBet; // Победитель получает всё
-                document.getElementById('result').innerHTML = `
-                    🎉 ПОБЕДИТЕЛЬ: <span class="winner">${winner.name}</span><br>
-                    Выигрыш: ${totalBet} 💰
-                `;
-                
-                // Если победитель - текущий пользователь
-                if(winner.name === currentUser) {
+                if (winner.name === currentUser) {
                     balance += totalBet;
-                    document.getElementById('balance').innerHTML = balance + ' 💰';
-                    tg.HapticFeedback.notificationOccurred('success');
+                    wins++;
+                    if (hapticEnabled) tg.HapticFeedback.notificationOccurred('success');
                 } else {
-                    tg.HapticFeedback.notificationOccurred('error');
+                    if (hapticEnabled) tg.HapticFeedback.notificationOccurred('error');
                 }
-                
-                // Очищаем игроков
+
+                tg.showPopup({
+                    title: winner.name === currentUser ? '🎉 Победа!' : '❌ Проигрыш',
+                    message: `Победитель: ${winner.name}\nВыигрыш: ${totalBet} TON`,
+                    buttons: [{type: 'ok'}]
+                });
+
+                // Очищаем
                 players = [];
                 updatePlayersList();
-                isSpinning = false;
+                updateBalance();
+                updateTotalBet();
                 
-                // Сбрасываем колесо
                 setTimeout(() => {
                     wheel.style.transform = 'rotate(0deg)';
-                }, 1000);
-                
+                }, 500);
+
+                startTimer();
             }, 3000);
         }
-        
+
+        // Пополнение
+        function deposit() {
+            tg.showPopup({
+                title: 'Пополнение',
+                message: 'Выберите способ:\n• TON Coin\n• Telegram Stars',
+                buttons: [
+                    {id: 'ton', type: 'default', text: 'TON'},
+                    {id: 'stars', type: 'default', text: 'Stars'},
+                    {id: 'cancel', type: 'cancel', text: 'Отмена'}
+                ]
+            }, (id) => {
+                if (id === 'ton') {
+                    balance += 100;
+                    updateBalance();
+                    if (hapticEnabled) tg.HapticFeedback.notificationOccurred('success');
+                }
+            });
+        }
+
+        // Настройки
+        function toggleHaptic(element) {
+            element.classList.toggle('active');
+            hapticEnabled = element.classList.contains('active');
+        }
+
+        function setLanguage(lang) {
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            tg.HapticFeedback.selectionChanged();
+        }
+
         // Инициализация
-        updatePlayersList();
         startTimer();
+        updatePlayersList();
     </script>
 </body>
 </html>
