@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Rolls</title>
+    <title>GIFT CASINO</title>
     <style>
         * {
             margin: 0;
@@ -12,12 +12,36 @@
         }
 
         body {
-            background: #0C0F15;
-            color: #E5E5E7;
+            background: #0A0F1F;
+            color: #FFFFFF;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             min-height: 100vh;
             padding: 16px;
-            padding-bottom: 80px;
+            padding-bottom: 90px;
+            position: relative;
+        }
+
+        /* Футуристический фон */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 30%, #1A2F4F, #0A0F1F);
+            z-index: -2;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.05"><path d="M20 20 L80 20 L80 80 L20 80 Z" fill="none" stroke="%23FFD700" stroke-width="0.5"/><circle cx="50" cy="50" r="15" fill="none" stroke="%23FFD700" stroke-width="0.5"/></svg>') repeat;
+            z-index: -1;
         }
 
         /* Статус бар */
@@ -25,93 +49,264 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 10;
         }
 
-        .user {
+        .user-info {
             display: flex;
             align-items: center;
             gap: 12px;
         }
 
         .avatar {
-            width: 44px;
-            height: 44px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
-            background: #1E222B;
-            border: 1px solid #2A2F3A;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            border: 2px solid rgba(255,255,255,0.3);
+            box-shadow: 0 0 30px rgba(255,215,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .avatar::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shine 3s infinite;
         }
 
         .user-name {
-            font-weight: 500;
+            font-weight: 700;
+            font-size: 18px;
+            background: linear-gradient(135deg, #FFFFFF, #FFD700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .balance-chip {
+            background: linear-gradient(135deg, #1E2A3A, #121A28);
+            padding: 10px 20px;
+            border-radius: 40px;
+            border: 1px solid rgba(255,215,0,0.3);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            font-weight: 700;
+            color: #FFD700;
             font-size: 16px;
-            color: #FFFFFF;
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .user-balance {
-            font-size: 14px;
-            color: #8E8E93;
-        }
-
-        .chat-link {
-            width: 44px;
-            height: 44px;
+        .ton-icon {
+            width: 24px;
+            height: 24px;
+            background: #4A90E2;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #1E222B;
-            border-radius: 50%;
-            color: #8E8E93;
-            font-size: 20px;
-            cursor: pointer;
-            border: 1px solid #2A2F3A;
-            transition: all 0.2s;
+            font-size: 12px;
+            color: white;
         }
 
-        .chat-link:hover {
-            border-color: #FFD700;
-            color: #FFD700;
-        }
-
-        /* Карточка игры */
-        .game-card {
-            background: #14171F;
-            border-radius: 24px;
+        /* Баланс карточка */
+        .balance-card {
+            background: rgba(20, 30, 50, 0.6);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
             padding: 20px;
-            margin-bottom: 16px;
-            border: 1px solid #2A2F3A;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,215,0,0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
         }
 
-        .game-header {
+        .balance-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 24px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,215,0,0.1);
         }
 
-        .game-title {
-            font-weight: 600;
-            font-size: 18px;
-            color: #FFFFFF;
-            letter-spacing: -0.3px;
+        .balance-row:last-child {
+            border-bottom: none;
         }
 
-        .total-bet {
-            background: #1E222B;
-            padding: 6px 14px;
-            border-radius: 30px;
+        .balance-label {
+            color: rgba(255,255,255,0.6);
             font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .balance-value {
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .ton-value {
+            color: #4A90E2;
+        }
+
+        .gift-value {
+            color: #FF6B6B;
+        }
+
+        .gift-icon {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #FF6B6B, #FF4444);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        /* Секция подарков */
+        .gifts-section {
+            background: rgba(20, 30, 50, 0.6);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,215,0,0.2);
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .gifts-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .gift-card {
+            background: linear-gradient(135deg, #1E2A3A, #121A28);
+            border-radius: 20px;
+            padding: 16px 12px;
+            text-align: center;
+            border: 1px solid rgba(255,215,0,0.2);
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gift-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #FFD700, #FF6B6B, #4A90E2);
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: -1;
+            border-radius: 22px;
+        }
+
+        .gift-card:hover::before {
+            opacity: 0.5;
+        }
+
+        .gift-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255,215,0,0.3);
+        }
+
+        .gift-emoji {
+            font-size: 32px;
+            margin-bottom: 8px;
+            filter: drop-shadow(0 0 10px currentColor);
+        }
+
+        .gift-name {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .gift-price {
             color: #FFD700;
-            border: 1px solid #2A2F3A;
-            font-weight: 500;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .gift-price.ton {
+            color: #4A90E2;
+        }
+
+        /* Инвентарь */
+        .inventory-section {
+            background: rgba(20, 30, 50, 0.6);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .inventory-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 16px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255,215,0,0.1);
+        }
+
+        .inventory-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .inventory-emoji {
+            font-size: 24px;
+        }
+
+        .inventory-name {
+            font-weight: 600;
+        }
+
+        .inventory-count {
+            background: #FFD700;
+            color: #0A0F1F;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 14px;
         }
 
         /* Колесо */
-        .wheel-wrapper {
+        .wheel-container {
             position: relative;
-            width: 260px;
-            height: 260px;
-            margin: 0 auto 24px;
+            width: 280px;
+            height: 280px;
+            margin: 20px auto 30px;
         }
 
         .wheel {
@@ -119,33 +314,35 @@
             height: 100%;
             border-radius: 50%;
             background: #1E222B;
-            border: 3px solid #2A2F3A;
-            transition: transform 3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 4px solid;
+            border-image: linear-gradient(45deg, #FFD700, #FF6B6B, #4A90E2) 1;
+            transition: transform 4s cubic-bezier(0.34, 1.56, 0.64, 1);
             position: relative;
             overflow: hidden;
+            box-shadow: 0 0 0 2px rgba(255,215,0,0.3), 0 20px 40px rgba(0,0,0,0.8);
         }
 
         .wheel.has-players {
             background: conic-gradient(
                 #FF4444 0deg,
                 #4A90E2 120deg,
-                #FFFFFF 240deg,
+                #FFD700 240deg,
                 #FF4444 360deg
             );
         }
 
         .arrow {
             position: absolute;
-            top: -12px;
+            top: -15px;
             left: 50%;
             transform: translateX(-50%);
             width: 0;
             height: 0;
-            border-left: 14px solid transparent;
-            border-right: 14px solid transparent;
-            border-top: 28px solid #FFD700;
-            filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.3));
-            z-index: 10;
+            border-left: 16px solid transparent;
+            border-right: 16px solid transparent;
+            border-top: 32px solid #FFD700;
+            filter: drop-shadow(0 5px 15px #FFD700);
+            z-index: 20;
         }
 
         .wheel-center {
@@ -153,388 +350,282 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 48px;
-            height: 48px;
-            background: #14171F;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle at 30% 30%, #FFD700, #B8860B);
             border-radius: 50%;
-            border: 2px solid #FFD700;
+            border: 3px solid #FFFFFF;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #FFD700;
-            font-weight: 600;
-            font-size: 18px;
-            z-index: 5;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            color: #0A0F1F;
+            font-weight: 800;
+            font-size: 24px;
+            z-index: 15;
+            box-shadow: 0 0 40px #FFD700;
         }
 
-        /* Таймер */
-        .timer-block {
-            text-align: center;
-            margin-bottom: 16px;
-        }
-
-        .timer {
-            font-size: 42px;
-            font-weight: 700;
-            color: #FFD700;
-            letter-spacing: 2px;
-            line-height: 1;
-        }
-
-        .timer-label {
-            font-size: 13px;
-            color: #8E8E93;
-            margin-top: 4px;
-        }
-
-        /* Список игроков */
-        .players-section {
-            background: #14171F;
-            border-radius: 24px;
+        /* Панель ставки */
+        .stake-panel {
+            background: linear-gradient(135deg, #1E2A3A, #121A28);
+            border-radius: 28px;
             padding: 20px;
-            margin-bottom: 16px;
-            border: 1px solid #2A2F3A;
+            border: 1px solid rgba(255,215,0,0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.8);
+            margin-bottom: 20px;
         }
 
-        .players-header {
+        .stake-tabs {
             display: flex;
-            justify-content: space-between;
-            color: #8E8E93;
-            font-size: 13px;
-            margin-bottom: 16px;
-            letter-spacing: -0.2px;
+            gap: 10px;
+            margin-bottom: 20px;
         }
 
-        .player-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #2A2F3A;
-        }
-
-        .player-row:last-child {
-            border-bottom: none;
-        }
-
-        .player-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .player-color {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-        }
-
-        .color-red { background: #FF4444; box-shadow: 0 0 10px rgba(255, 68, 68, 0.3); }
-        .color-blue { background: #4A90E2; box-shadow: 0 0 10px rgba(74, 144, 226, 0.3); }
-        .color-white { background: #FFFFFF; box-shadow: 0 0 10px rgba(255, 255, 255, 0.3); }
-
-        .player-name {
-            font-weight: 500;
-            font-size: 15px;
-            color: #FFFFFF;
-        }
-
-        .player-stats {
-            text-align: right;
-        }
-
-        .player-bet {
-            color: #FFD700;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .player-chance {
-            color: #8E8E93;
-            font-size: 12px;
-            margin-left: 8px;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 32px 20px;
-            color: #8E8E93;
-            font-size: 14px;
-        }
-
-        /* Панель ставок */
-        .bet-panel {
-            background: #14171F;
-            border-radius: 24px;
-            padding: 20px;
-            border: 1px solid #2A2F3A;
-        }
-
-        .bet-label {
-            color: #8E8E93;
-            font-size: 12px;
-            margin-bottom: 8px;
-            letter-spacing: -0.2px;
-        }
-
-        .bet-controls {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-
-        .bet-input {
+        .stake-tab {
             flex: 1;
-            background: #1E222B;
-            border: 1px solid #2A2F3A;
+            padding: 12px;
             border-radius: 16px;
-            padding: 14px 16px;
-            color: #FFFFFF;
-            font-size: 16px;
-            font-weight: 500;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,215,0,0.2);
+            color: rgba(255,255,255,0.6);
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
         }
 
-        .bet-input:focus {
+        .stake-tab.active {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #0A0F1F;
+            border-color: #FFFFFF;
+            box-shadow: 0 0 20px rgba(255,215,0,0.5);
+        }
+
+        .stake-input-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .stake-input {
+            flex: 1;
+            background: #0A0F1F;
+            border: 2px solid rgba(255,215,0,0.3);
+            border-radius: 20px;
+            padding: 18px 20px;
+            color: #FFFFFF;
+            font-size: 24px;
+            font-weight: 700;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .stake-input:focus {
             outline: none;
             border-color: #FFD700;
+            box-shadow: 0 0 30px rgba(255,215,0,0.3);
         }
 
-        .bet-button {
-            background: #FFD700;
-            color: #0C0F15;
-            border: none;
-            border-radius: 16px;
-            padding: 0 28px;
+        .stake-currency {
+            font-size: 24px;
             font-weight: 700;
-            font-size: 15px;
-            cursor: pointer;
-            transition: all 0.2s;
-            letter-spacing: -0.2px;
+            color: #FFD700;
+            min-width: 60px;
+            text-align: center;
         }
 
-        .bet-button:active {
-            transform: scale(0.97);
-            opacity: 0.9;
+        .stake-presets {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 15px;
         }
 
-        .your-bet {
-            font-size: 13px;
-            color: #8E8E93;
-            margin-bottom: 12px;
-        }
-
-        .your-bet span {
+        .stake-preset {
+            background: rgba(255,215,0,0.1);
+            border: 1px solid rgba(255,215,0,0.3);
+            border-radius: 14px;
+            padding: 12px;
             color: #FFD700;
             font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
         }
 
-        .spin-button {
-            width: 100%;
-            background: #2A2F3A;
-            color: #FFFFFF;
-            border: none;
+        .stake-preset:hover {
+            background: rgba(255,215,0,0.2);
+            transform: translateY(-2px);
+        }
+
+        .stake-gifts {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .stake-gift-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: rgba(0,0,0,0.3);
             border-radius: 16px;
-            padding: 16px;
-            font-weight: 600;
-            font-size: 15px;
             cursor: pointer;
+            border: 1px solid transparent;
             transition: all 0.2s;
-            border: 1px solid #3A3F4A;
         }
 
-        .spin-button.active {
-            background: #FFD700;
-            color: #0C0F15;
+        .stake-gift-item:hover {
             border-color: #FFD700;
+            background: rgba(255,215,0,0.1);
         }
 
-        .spin-button:active {
-            transform: scale(0.98);
+        .stake-gift-item.selected {
+            border-color: #FFD700;
+            background: rgba(255,215,0,0.15);
+            box-shadow: 0 0 15px rgba(255,215,0,0.3);
         }
 
-        .spin-button:disabled {
-            opacity: 0.3;
-            pointer-events: none;
+        .stake-gift-emoji {
+            font-size: 24px;
         }
 
-        /* История игр */
-        .history-section {
-            background: #14171F;
-            border-radius: 24px;
-            padding: 20px;
-            margin-top: 16px;
-            border: 1px solid #2A2F3A;
+        .stake-gift-info {
+            flex: 1;
         }
 
-        .history-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-
-        .history-title {
-            color: #8E8E93;
-            font-size: 13px;
-            letter-spacing: -0.2px;
-        }
-
-        .history-clear {
-            color: #FFD700;
-            font-size: 12px;
-            cursor: pointer;
-            opacity: 0.8;
-        }
-
-        .history-list {
-            max-height: 200px;
-            overflow-y: auto;
-        }
-
-        .history-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #2A2F3A;
-        }
-
-        .history-item:last-child {
-            border-bottom: none;
-        }
-
-        .history-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .history-time {
-            color: #8E8E93;
-            font-size: 12px;
-        }
-
-        .history-winner {
-            font-weight: 500;
+        .stake-gift-name {
+            font-weight: 600;
             font-size: 14px;
-            color: #FFD700;
         }
 
-        .history-pot {
-            color: #8E8E93;
-            font-size: 13px;
+        .stake-gift-price {
+            color: #FFD700;
+            font-size: 12px;
+        }
+
+        .stake-button {
+            width: 100%;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            border: none;
+            border-radius: 20px;
+            padding: 18px;
+            color: #0A0F1F;
+            font-weight: 800;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 25px rgba(255,215,0,0.4);
+            margin-top: 10px;
+        }
+
+        .stake-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(255,215,0,0.6);
         }
 
         /* Профиль */
         .profile-card {
-            background: #14171F;
-            border-radius: 24px;
+            background: rgba(20, 30, 50, 0.6);
+            backdrop-filter: blur(12px);
+            border-radius: 32px;
             padding: 24px;
-            border: 1px solid #2A2F3A;
+            border: 1px solid rgba(255,215,0,0.2);
         }
 
         .profile-header {
             display: flex;
             align-items: center;
-            gap: 16px;
-            margin-bottom: 24px;
+            gap: 20px;
+            margin-bottom: 30px;
         }
 
         .profile-avatar-large {
-            width: 64px;
-            height: 64px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
-            background: #1E222B;
-            border: 2px solid #2A2F3A;
+            background: linear-gradient(135deg, #FFD700, #FF6B6B, #4A90E2);
+            border: 3px solid #FFFFFF;
+            box-shadow: 0 0 40px rgba(255,215,0,0.5);
         }
 
-        .profile-name-large {
-            font-size: 20px;
-            font-weight: 600;
-            color: #FFFFFF;
-            margin-bottom: 4px;
+        .profile-stats {
+            flex: 1;
         }
 
-        .profile-balance {
-            font-size: 14px;
-            color: #8E8E93;
+        .profile-name {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 5px;
+            background: linear-gradient(135deg, #FFFFFF, #FFD700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .profile-joined {
+            color: rgba(255,255,255,0.5);
+            font-size: 13px;
         }
 
         .profile-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 0;
-            border-bottom: 1px solid #2A2F3A;
-        }
-
-        .profile-row:last-child {
-            border-bottom: none;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,215,0,0.1);
         }
 
         .profile-label {
-            color: #8E8E93;
-            font-size: 14px;
+            color: rgba(255,255,255,0.6);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .profile-value {
-            font-weight: 600;
-            color: #FFD700;
-        }
-
-        .deposit-button {
-            width: 100%;
-            background: #FFD700;
-            color: #0C0F15;
-            border: none;
-            border-radius: 16px;
-            padding: 16px;
             font-weight: 700;
-            font-size: 15px;
-            cursor: pointer;
-            margin-top: 24px;
-            transition: all 0.2s;
+            font-size: 18px;
         }
 
-        .deposit-button:active {
-            transform: scale(0.98);
-            opacity: 0.9;
+        .history-list {
+            margin-top: 20px;
         }
 
-        /* Настройки */
-        .settings-card {
-            background: #14171F;
-            border-radius: 24px;
-            padding: 24px;
-            border: 1px solid #2A2F3A;
-        }
-
-        .settings-row {
+        .history-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 0;
-            border-bottom: 1px solid #2A2F3A;
+            padding: 12px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            margin-bottom: 8px;
         }
 
-        .settings-row:last-child {
-            border-bottom: none;
+        .history-gift {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .settings-label {
-            font-size: 15px;
-            color: #FFFFFF;
+        .history-emoji {
+            font-size: 20px;
         }
 
-        .settings-value {
-            color: #8E8E93;
+        .history-text {
             font-size: 14px;
         }
 
-        .support-link {
-            color: #FFD700;
-            text-decoration: none;
+        .history-win {
+            color: #4CAF50;
+            font-weight: 600;
+        }
+
+        .history-lose {
+            color: #FF4444;
+            font-weight: 600;
         }
 
         /* Нижнее меню */
@@ -545,31 +636,34 @@
             right: 0;
             display: flex;
             justify-content: space-around;
-            padding: 12px 16px 20px;
-            background: #0C0F15;
-            border-top: 1px solid #2A2F3A;
+            padding: 15px 20px 25px;
+            background: rgba(10, 15, 25, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255,215,0,0.2);
         }
 
         .menu-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 6px;
-            color: #8E8E93;
+            gap: 5px;
+            color: rgba(255,255,255,0.4);
             font-size: 12px;
             cursor: pointer;
-            transition: color 0.2s;
+            transition: all 0.3s;
         }
 
         .menu-item.active {
             color: #FFD700;
+            transform: translateY(-3px);
         }
 
         .menu-icon {
             font-size: 22px;
+            filter: drop-shadow(0 0 10px currentColor);
         }
 
-        /* Скрытие секций */
+        /* Секции */
         .section {
             display: none;
         }
@@ -582,15 +676,13 @@
 <body>
     <!-- Статус бар -->
     <div class="status-bar">
-        <div class="user" onclick="showSection('profile')">
+        <div class="user-info">
             <div class="avatar"></div>
-            <div>
-                <div class="user-name" id="username">@klrpl</div>
-                <div class="user-balance" id="headerBalance">0 TON</div>
-            </div>
+            <span class="user-name" id="username">@klrpl</span>
         </div>
-        <div class="chat-link" onclick="openChat()">
-            💬
+        <div class="balance-chip">
+            <span class="ton-icon">⚡</span>
+            <span id="headerBalance">1000</span>
         </div>
     </div>
 
@@ -598,59 +690,161 @@
     <div class="content">
         <!-- Секция Рулетка -->
         <div id="rouletteSection" class="section active">
-            <div class="game-card">
-                <div class="game-header">
-                    <span class="game-title">🎡 PvP Рулетка</span>
-                    <span class="total-bet" id="totalBet">0 TON</span>
+            <!-- Баланс карточка -->
+            <div class="balance-card">
+                <div class="balance-row">
+                    <span class="balance-label"><span class="ton-icon" style="width: 20px; height: 20px;">⚡</span> TON Balance</span>
+                    <span class="balance-value ton-value" id="tonBalance">1000 TON</span>
                 </div>
-
-                <div class="wheel-wrapper">
-                    <div class="arrow"></div>
-                    <div class="wheel" id="wheel"></div>
-                    <div class="wheel-center">?</div>
-                </div>
-
-                <div class="timer-block">
-                    <div class="timer" id="timer">10</div>
-                    <div class="timer-label">до начала</div>
+                <div class="balance-row">
+                    <span class="balance-label"><span class="gift-icon">🎁</span> Gift Balance</span>
+                    <span class="balance-value gift-value" id="giftBalance">0</span>
                 </div>
             </div>
 
-            <div class="players-section">
-                <div class="players-header">
-                    <span>Игроки</span>
-                    <span>Ставка / Шанс</span>
+            <!-- Колесо -->
+            <div class="wheel-container">
+                <div class="arrow"></div>
+                <div class="wheel" id="wheel"></div>
+                <div class="wheel-center">🎰</div>
+            </div>
+
+            <!-- Панель ставки -->
+            <div class="stake-panel">
+                <div class="stake-tabs">
+                    <div class="stake-tab active" onclick="switchStakeTab('ton')" id="tabTon">TON</div>
+                    <div class="stake-tab" onclick="switchStakeTab('gift')" id="tabGift">GIFT</div>
+                </div>
+
+                <!-- TON ставка -->
+                <div id="stakeTon">
+                    <div class="stake-input-container">
+                        <input type="number" id="tonAmount" class="stake-input" value="10" min="1" step="1">
+                        <span class="stake-currency">TON</span>
+                    </div>
+                    <div class="stake-presets">
+                        <div class="stake-preset" onclick="setTonBet(10)">10</div>
+                        <div class="stake-preset" onclick="setTonBet(50)">50</div>
+                        <div class="stake-preset" onclick="setTonBet(100)">100</div>
+                        <div class="stake-preset" onclick="setTonBet(500)">500</div>
+                    </div>
+                </div>
+
+                <!-- GIFT ставка -->
+                <div id="stakeGift" style="display: none;">
+                    <div class="stake-gifts">
+                        <div class="stake-gift-item" onclick="selectGift('common')" id="giftCommon">
+                            <span class="stake-gift-emoji">🎁</span>
+                            <div class="stake-gift-info">
+                                <div class="stake-gift-name">Common Gift</div>
+                                <div class="stake-gift-price">10 TON</div>
+                            </div>
+                        </div>
+                        <div class="stake-gift-item" onclick="selectGift('rare')" id="giftRare">
+                            <span class="stake-gift-emoji">🎀</span>
+                            <div class="stake-gift-info">
+                                <div class="stake-gift-name">Rare Gift</div>
+                                <div class="stake-gift-price">50 TON</div>
+                            </div>
+                        </div>
+                        <div class="stake-gift-item" onclick="selectGift('epic')" id="giftEpic">
+                            <span class="stake-gift-emoji">👑</span>
+                            <div class="stake-gift-info">
+                                <div class="stake-gift-name">Epic Gift</div>
+                                <div class="stake-gift-price">100 TON</div>
+                            </div>
+                        </div>
+                        <div class="stake-gift-item" onclick="selectGift('legendary')" id="giftLegendary">
+                            <span class="stake-gift-emoji">💎</span>
+                            <div class="stake-gift-info">
+                                <div class="stake-gift-name">Legendary</div>
+                                <div class="stake-gift-price">500 TON</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="stake-button" onclick="placeBet()" id="placeBetBtn">
+                    🎲 ПОСТАВИТЬ
+                </button>
+            </div>
+
+            <!-- Активные игроки -->
+            <div class="inventory-section">
+                <div class="section-title">
+                    <span>👥</span> АКТИВНЫЕ ИГРОКИ
                 </div>
                 <div id="playersList">
-                    <div class="empty-state">
-                        👥 Нет игроков
+                    <div style="text-align: center; padding: 30px; color: rgba(255,255,255,0.3);">
+                        Нет активных игроков
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секция Инвентарь -->
+        <div id="inventorySection" class="section">
+            <div class="inventory-section">
+                <div class="section-title">
+                    <span>📦</span> МОИ ПОДАРКИ
+                </div>
+                <div id="inventoryList">
+                    <div class="inventory-item">
+                        <div class="inventory-info">
+                            <span class="inventory-emoji">🎁</span>
+                            <span class="inventory-name">Common Gift</span>
+                        </div>
+                        <span class="inventory-count" id="commonCount">0</span>
+                    </div>
+                    <div class="inventory-item">
+                        <div class="inventory-info">
+                            <span class="inventory-emoji">🎀</span>
+                            <span class="inventory-name">Rare Gift</span>
+                        </div>
+                        <span class="inventory-count" id="rareCount">0</span>
+                    </div>
+                    <div class="inventory-item">
+                        <div class="inventory-info">
+                            <span class="inventory-emoji">👑</span>
+                            <span class="inventory-name">Epic Gift</span>
+                        </div>
+                        <span class="inventory-count" id="epicCount">0</span>
+                    </div>
+                    <div class="inventory-item">
+                        <div class="inventory-info">
+                            <span class="inventory-emoji">💎</span>
+                            <span class="inventory-name">Legendary Gift</span>
+                        </div>
+                        <span class="inventory-count" id="legendaryCount">0</span>
                     </div>
                 </div>
             </div>
 
-            <div class="bet-panel">
-                <div class="bet-label">СТАВКА (TON)</div>
-                <div class="bet-controls">
-                    <input type="number" id="betAmount" class="bet-input" value="1" min="0.1" step="0.1">
-                    <button class="bet-button" onclick="placeBet()">→</button>
+            <!-- Магазин подарков -->
+            <div class="gifts-section">
+                <div class="section-title">
+                    <span>🛍️</span> КУПИТЬ ПОДАРКИ
                 </div>
-                <div class="your-bet">
-                    Ваша ставка: <span id="yourBet">0 TON</span>
-                </div>
-                <button class="spin-button" id="spinBtn" onclick="spinRoulette()" disabled>
-                    Запустить рулетку
-                </button>
-            </div>
-
-            <!-- История игр -->
-            <div class="history-section">
-                <div class="history-header">
-                    <span class="history-title">📋 ИСТОРИЯ ИГР</span>
-                    <span class="history-clear" onclick="clearHistory()">Очистить</span>
-                </div>
-                <div class="history-list" id="historyList">
-                    <div class="empty-state" style="padding: 20px;">
-                        История пуста
+                <div class="gifts-grid">
+                    <div class="gift-card" onclick="buyGift('common', 10)">
+                        <div class="gift-emoji">🎁</div>
+                        <div class="gift-name">Common</div>
+                        <div class="gift-price">10 TON</div>
+                    </div>
+                    <div class="gift-card" onclick="buyGift('rare', 50)">
+                        <div class="gift-emoji">🎀</div>
+                        <div class="gift-name">Rare</div>
+                        <div class="gift-price">50 TON</div>
+                    </div>
+                    <div class="gift-card" onclick="buyGift('epic', 100)">
+                        <div class="gift-emoji">👑</div>
+                        <div class="gift-name">Epic</div>
+                        <div class="gift-price">100 TON</div>
+                    </div>
+                    <div class="gift-card" onclick="buyGift('legendary', 500)">
+                        <div class="gift-emoji">💎</div>
+                        <div class="gift-name">Legendary</div>
+                        <div class="gift-price">500 TON</div>
                     </div>
                 </div>
             </div>
@@ -661,25 +855,20 @@
             <div class="profile-card">
                 <div class="profile-header">
                     <div class="profile-avatar-large"></div>
-                    <div>
-                        <div class="profile-name-large" id="profileName">@klrpl</div>
-                        <div class="profile-balance" id="profileBalance">0 TON</div>
+                    <div class="profile-stats">
+                        <div class="profile-name" id="profileName">@klrpl</div>
+                        <div class="profile-joined">Участник с 2026</div>
                     </div>
                 </div>
 
                 <div class="profile-row">
-                    <span class="profile-label">💰 Баланс</span>
-                    <span class="profile-value" id="profileBalanceValue">0 TON</span>
+                    <span class="profile-label"><span class="ton-icon">⚡</span> TON Баланс</span>
+                    <span class="profile-value ton-value" id="profileTonBalance">1000 TON</span>
                 </div>
 
                 <div class="profile-row">
-                    <span class="profile-label">🎁 Инвентарь</span>
-                    <span class="profile-value">0</span>
-                </div>
-
-                <div class="profile-row">
-                    <span class="profile-label">👥 Рефералы</span>
-                    <span class="profile-value">0</span>
+                    <span class="profile-label"><span class="gift-icon">🎁</span> Всего подарков</span>
+                    <span class="profile-value gift-value" id="totalGifts">0</span>
                 </div>
 
                 <div class="profile-row">
@@ -687,26 +876,18 @@
                     <span class="profile-value" id="winsCount">0</span>
                 </div>
 
-                <button class="deposit-button" onclick="deposit()">
-                    Пополнить
-                </button>
-            </div>
-        </div>
+                <div class="profile-row">
+                    <span class="profile-label">📊 Игр</span>
+                    <span class="profile-value" id="gamesCount">0</span>
+                </div>
 
-        <!-- Секция Настройки -->
-        <div id="settingsSection" class="section">
-            <div class="settings-card">
-                <div class="settings-row">
-                    <span class="settings-label">Тактильный отклик</span>
-                    <span class="settings-value">Вкл</span>
-                </div>
-                <div class="settings-row">
-                    <span class="settings-label">Язык</span>
-                    <span class="settings-value">Русский</span>
-                </div>
-                <div class="settings-row">
-                    <span class="settings-label">Поддержка</span>
-                    <a href="https://t.me/klrpl" class="settings-value support-link">@klrpl</a>
+                <div style="margin-top: 20px;">
+                    <div class="section-title">📜 ИСТОРИЯ</div>
+                    <div class="history-list" id="profileHistory">
+                        <div style="text-align: center; padding: 20px; color: rgba(255,255,255,0.3);">
+                            Нет истории
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -718,13 +899,13 @@
             <span class="menu-icon">🎡</span>
             <span>Рулетка</span>
         </div>
+        <div class="menu-item" onclick="showSection('inventory')">
+            <span class="menu-icon">📦</span>
+            <span>Инвентарь</span>
+        </div>
         <div class="menu-item" onclick="showSection('profile')">
             <span class="menu-icon">👤</span>
             <span>Профиль</span>
-        </div>
-        <div class="menu-item" onclick="showSection('settings')">
-            <span class="menu-icon">⚙️</span>
-            <span>Настройки</span>
         </div>
     </div>
 
@@ -734,93 +915,137 @@
         tg.ready();
         tg.expand();
 
-        // Данные
-        let balance = 1000;
-        let wins = 0;
-        let players = [];
-        let history = [];
-        let timerInterval;
-        let timeLeft = 10;
-        let currentUser = '@klrpl';
-        let playerColors = ['red', 'blue', 'white'];
-        let currentPlayerBet = 0;
-
-        // Получаем пользователя
+        // Данные пользователя
         let user = tg.initDataUnsafe?.user;
-        if (user) {
-            currentUser = '@' + (user.username || user.first_name || 'klrpl');
-        }
+        let currentUser = '@' + (user?.username || user?.first_name || 'klrpl');
+        
+        // Баланс
+        let tonBalance = 1000;
+        let gifts = {
+            common: 0,
+            rare: 0,
+            epic: 0,
+            legendary: 0
+        };
+        
+        // Статистика
+        let wins = 0;
+        let games = 0;
+        let history = [];
+        
+        // Игроки
+        let players = [];
+        let currentBetType = 'ton';
+        let selectedGift = null;
 
-        // Обновляем имена
+        // Обновление интерфейса
         document.getElementById('username').textContent = currentUser;
         document.getElementById('profileName').textContent = currentUser;
-        updateBalance();
+        updateBalances();
 
-        // Переключение секций
-        function showSection(section) {
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.getElementById(section + 'Section').classList.add('active');
+        function updateBalances() {
+            document.getElementById('headerBalance').textContent = tonBalance;
+            document.getElementById('tonBalance').textContent = tonBalance + ' TON';
+            document.getElementById('profileTonBalance').textContent = tonBalance + ' TON';
             
-            document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
-            event.currentTarget.classList.add('active');
+            let totalGifts = gifts.common + gifts.rare + gifts.epic + gifts.legendary;
+            document.getElementById('totalGifts').textContent = totalGifts;
+            document.getElementById('giftBalance').textContent = totalGifts;
             
-            tg.HapticFeedback.selectionChanged();
+            document.getElementById('commonCount').textContent = gifts.common;
+            document.getElementById('rareCount').textContent = gifts.rare;
+            document.getElementById('epicCount').textContent = gifts.epic;
+            document.getElementById('legendaryCount').textContent = gifts.legendary;
+            
+            document.getElementById('winsCount').textContent = wins;
+            document.getElementById('gamesCount').textContent = games;
         }
 
-        // Обновление баланса
-        function updateBalance() {
-            let balanceText = balance + ' TON';
-            document.getElementById('headerBalance').textContent = balanceText;
-            document.getElementById('profileBalance').textContent = balanceText;
-            document.getElementById('profileBalanceValue').textContent = balanceText;
-            document.getElementById('winsCount').textContent = wins;
+        // Переключение между TON и Gift
+        function switchStakeTab(type) {
+            currentBetType = type;
+            document.getElementById('tabTon').classList.toggle('active', type === 'ton');
+            document.getElementById('tabGift').classList.toggle('active', type === 'gift');
+            document.getElementById('stakeTon').style.display = type === 'ton' ? 'block' : 'none';
+            document.getElementById('stakeGift').style.display = type === 'gift' ? 'block' : 'none';
+        }
+
+        // Установка TON ставки
+        function setTonBet(amount) {
+            document.getElementById('tonAmount').value = amount;
+        }
+
+        // Выбор подарка
+        function selectGift(type) {
+            document.querySelectorAll('.stake-gift-item').forEach(el => el.classList.remove('selected'));
+            document.getElementById('gift' + type.charAt(0).toUpperCase() + type.slice(1)).classList.add('selected');
+            selectedGift = type;
+        }
+
+        // Покупка подарка
+        function buyGift(type, price) {
+            if (tonBalance < price) {
+                tg.showPopup({
+                    title: 'Ошибка',
+                    message: 'Недостаточно TON',
+                    buttons: [{type: 'ok'}]
+                });
+                return;
+            }
+            
+            tonBalance -= price;
+            gifts[type]++;
+            updateBalances();
+            
+            tg.HapticFeedback.notificationOccurred('success');
         }
 
         // Сделать ставку
         function placeBet() {
-            let bet = parseFloat(document.getElementById('betAmount').value);
+            if (currentBetType === 'ton') {
+                let amount = parseInt(document.getElementById('tonAmount').value);
+                
+                if (amount > tonBalance) {
+                    tg.showPopup({title: 'Ошибка', message: 'Недостаточно TON', buttons: [{type: 'ok'}]});
+                    return;
+                }
+                
+                tonBalance -= amount;
+                
+                players.push({
+                    name: currentUser,
+                    bet: amount,
+                    type: 'ton',
+                    color: players.length % 3 === 0 ? 'red' : (players.length % 3 === 1 ? 'blue' : 'white')
+                });
+                
+            } else {
+                if (!selectedGift) {
+                    tg.showPopup({title: 'Ошибка', message: 'Выберите подарок', buttons: [{type: 'ok'}]});
+                    return;
+                }
+                
+                if (gifts[selectedGift] < 1) {
+                    tg.showPopup({title: 'Ошибка', message: 'У вас нет такого подарка', buttons: [{type: 'ok'}]});
+                    return;
+                }
+                
+                gifts[selectedGift]--;
+                
+                let giftPrices = {common: 10, rare: 50, epic: 100, legendary: 500};
+                
+                players.push({
+                    name: currentUser,
+                    bet: giftPrices[selectedGift],
+                    type: 'gift',
+                    gift: selectedGift,
+                    color: players.length % 3 === 0 ? 'red' : (players.length % 3 === 1 ? 'blue' : 'white')
+                });
+            }
             
-            if (bet > balance) {
-                tg.showPopup({
-                    title: 'Ошибка',
-                    message: 'Недостаточно средств',
-                    buttons: [{type: 'ok'}]
-                });
-                return;
-            }
-
-            // Проверяем, есть ли уже игрок
-            let existingPlayer = players.find(p => p.name === currentUser);
-            if (existingPlayer) {
-                tg.showPopup({
-                    title: 'Ошибка',
-                    message: 'Вы уже сделали ставку',
-                    buttons: [{type: 'ok'}]
-                });
-                return;
-            }
-
-            // Добавляем игрока со случайным цветом
-            let colorIndex = players.length % playerColors.length;
-            players.push({
-                name: currentUser,
-                bet: bet,
-                color: playerColors[colorIndex]
-            });
-
-            currentPlayerBet = bet;
-            balance -= bet;
-            updateBalance();
+            updateBalances();
             updatePlayersList();
-            resetTimer();
-            updateTotalBet();
-            document.getElementById('yourBet').textContent = bet + ' TON';
-            
-            // Добавляем цвет колесу
-            if (players.length > 0) {
-                document.getElementById('wheel').classList.add('has-players');
-            }
-
+            document.getElementById('wheel').classList.add('has-players');
             tg.HapticFeedback.impactOccurred('medium');
         }
 
@@ -829,206 +1054,36 @@
             let list = document.getElementById('playersList');
             
             if (players.length === 0) {
-                list.innerHTML = '<div class="empty-state">👥 Нет игроков</div>';
-                document.getElementById('spinBtn').disabled = true;
-                document.getElementById('wheel').classList.remove('has-players');
+                list.innerHTML = '<div style="text-align: center; padding: 30px; color: rgba(255,255,255,0.3);">Нет активных игроков</div>';
                 return;
             }
-
-            let totalBet = players.reduce((sum, p) => sum + p.bet, 0);
+            
             let html = '';
-
             players.forEach(p => {
-                let chance = ((p.bet / totalBet) * 100).toFixed(1);
                 html += `
-                    <div class="player-row">
-                        <div class="player-info">
-                            <div class="player-color color-${p.color}"></div>
-                            <span class="player-name">${p.name}</span>
+                    <div class="inventory-item">
+                        <div class="inventory-info">
+                            <div style="width: 10px; height: 10px; border-radius: 50%; background: ${p.color === 'red' ? '#FF4444' : (p.color === 'blue' ? '#4A90E2' : '#FFFFFF')}; box-shadow: 0 0 10px currentColor;"></div>
+                            <span class="inventory-name">${p.name}</span>
                         </div>
-                        <div class="player-stats">
-                            <span class="player-bet">${p.bet} TON</span>
-                            <span class="player-chance">${chance}%</span>
+                        <div>
+                            <span style="color: #FFD700;">${p.bet} ${p.type === 'ton' ? 'TON' : '🎁'}</span>
                         </div>
                     </div>
                 `;
             });
-
-            list.innerHTML = html;
             
-            // Активируем кнопку если 2+ игрока
-            document.getElementById('spinBtn').disabled = players.length < 2;
-            if (players.length >= 2) {
-                document.getElementById('spinBtn').classList.add('active');
-                document.getElementById('spinBtn').textContent = '🎲 Запустить рулетку';
-            }
-        }
-
-        // Обновление общей ставки
-        function updateTotalBet() {
-            let total = players.reduce((sum, p) => sum + p.bet, 0);
-            document.getElementById('totalBet').textContent = total + ' TON';
-        }
-
-        // Таймер
-        function startTimer() {
-            timeLeft = 10;
-            document.getElementById('timer').textContent = timeLeft;
-            
-            if (timerInterval) clearInterval(timerInterval);
-            
-            timerInterval = setInterval(() => {
-                timeLeft--;
-                document.getElementById('timer').textContent = timeLeft;
-                
-                if (timeLeft <= 0 && players.length >= 2) {
-                    spinRoulette();
-                }
-            }, 1000);
-        }
-
-        function resetTimer() {
-            timeLeft = 10;
-            document.getElementById('timer').textContent = timeLeft;
-            if (timerInterval) {
-                clearInterval(timerInterval);
-                startTimer();
-            }
-        }
-
-        // Запуск рулетки
-        function spinRoulette() {
-            if (players.length < 2) {
-                tg.showPopup({
-                    title: 'Ошибка',
-                    message: 'Нужно минимум 2 игрока',
-                    buttons: [{type: 'ok'}]
-                });
-                return;
-            }
-
-            clearInterval(timerInterval);
-            
-            // Выбираем победителя
-            let totalBet = players.reduce((sum, p) => sum + p.bet, 0);
-            let random = Math.random() * totalBet;
-            let cumulative = 0;
-            let winner = null;
-
-            for (let player of players) {
-                cumulative += player.bet;
-                if (random <= cumulative) {
-                    winner = player;
-                    break;
-                }
-            }
-
-            // Анимация колеса
-            let wheel = document.getElementById('wheel');
-            let spins = 5 + Math.random() * 5;
-            let degrees = spins * 360 + (Math.random() * 360);
-            wheel.style.transform = `rotate(${degrees}deg)`;
-
-            tg.HapticFeedback.impactOccurred('heavy');
-
-            // Сохраняем в историю
-            let now = new Date();
-            let timeStr = now.getHours() + ':' + (now.getMinutes() < 10 ? '0' : '') + now.getMinutes();
-            
-            history.unshift({
-                time: timeStr,
-                winner: winner.name,
-                pot: totalBet
-            });
-
-            // Результат через 3 секунды
-            setTimeout(() => {
-                if (winner.name === currentUser) {
-                    balance += totalBet;
-                    wins++;
-                    tg.HapticFeedback.notificationOccurred('success');
-                } else {
-                    tg.HapticFeedback.notificationOccurred('error');
-                }
-
-                updateBalance();
-                updateHistory();
-
-                // Очищаем
-                players = [];
-                currentPlayerBet = 0;
-                document.getElementById('yourBet').textContent = '0 TON';
-                updatePlayersList();
-                updateTotalBet();
-                
-                setTimeout(() => {
-                    wheel.style.transform = 'rotate(0deg)';
-                }, 500);
-
-                startTimer();
-            }, 3000);
-        }
-
-        // Обновление истории
-        function updateHistory() {
-            let list = document.getElementById('historyList');
-            
-            if (history.length === 0) {
-                list.innerHTML = '<div class="empty-state" style="padding: 20px;">История пуста</div>';
-                return;
-            }
-
-            let html = '';
-            history.slice(0, 5).forEach(item => {
-                html += `
-                    <div class="history-item">
-                        <div class="history-info">
-                            <span class="history-time">${item.time}</span>
-                            <span class="history-winner">${item.winner}</span>
-                        </div>
-                        <span class="history-pot">${item.pot} TON</span>
-                    </div>
-                `;
-            });
-
             list.innerHTML = html;
         }
 
-        // Очистить историю
-        function clearHistory() {
-            history = [];
-            updateHistory();
-            tg.HapticFeedback.impactOccurred('light');
+        // Переключение секций
+        function showSection(section) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(section + 'Section').classList.add('active');
+            
+            document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
+            event.currentTarget.classList.add('active');
         }
-
-        // Пополнение
-        function deposit() {
-            tg.showPopup({
-                title: 'Пополнение',
-                message: 'Выберите способ:',
-                buttons: [
-                    {id: 'ton', type: 'default', text: 'TON Coin'},
-                    {id: 'stars', type: 'default', text: 'Telegram Stars'},
-                    {id: 'cancel', type: 'cancel', text: 'Отмена'}
-                ]
-            }, (id) => {
-                if (id === 'ton') {
-                    balance += 100;
-                    updateBalance();
-                    tg.HapticFeedback.notificationOccurred('success');
-                }
-            });
-        }
-
-        // Открыть чат
-        function openChat() {
-            tg.openTelegramLink('https://t.me/your_chat');
-        }
-
-        // Инициализация
-        startTimer();
-        updatePlayersList();
-        updateHistory();
     </script>
 </body>
 </html>
