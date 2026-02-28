@@ -16,9 +16,9 @@
             background: linear-gradient(135deg, #0b0f1c, #1a1f33);
             color: white;
             min-height: 100vh;
+            padding-bottom: 80px;
         }
         
-        /* Хедер с профилем */
         .header {
             display: flex;
             justify-content: space-between;
@@ -43,8 +43,6 @@
         
         .username {
             font-weight: 600;
-            font-size: 14px;
-            color: #fff;
         }
         
         .balance-block {
@@ -52,17 +50,15 @@
             padding: 8px 15px;
             border-radius: 20px;
             border: 1px solid rgba(255,215,0,0.3);
-            font-weight: 600;
             color: gold;
         }
         
-        /* Основной контент */
         .content {
             padding: 15px;
         }
         
-        /* Карточка профиля */
-        .profile-card {
+        /* PvP секция */
+        .pvp-container {
             background: rgba(255,255,255,0.05);
             border-radius: 15px;
             padding: 20px;
@@ -70,7 +66,15 @@
             border: 1px solid rgba(255,255,255,0.1);
         }
         
-        .profile-row {
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            color: #888;
+            font-size: 14px;
+        }
+        
+        .player-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -78,42 +82,105 @@
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
         
-        .profile-row:last-child {
+        .player-row:last-child {
             border-bottom: none;
         }
         
-        .profile-label {
+        .player-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .player-avatar-small {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+        }
+        
+        .player-name {
+            font-weight: 600;
+        }
+        
+        .pred-game {
+            font-size: 12px;
             color: #888;
+        }
+        
+        .player-stats {
+            text-align: right;
+        }
+        
+        .ton-amount {
+            color: #45aaf2;
+            font-weight: 600;
+        }
+        
+        .chance {
+            background: #4CAF50;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        
+        .total-bet {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.1);
             font-size: 14px;
         }
         
-        .profile-value {
-            font-weight: 600;
+        .timer {
+            background: rgba(255,255,255,0.1);
+            padding: 5px 10px;
+            border-radius: 15px;
+        }
+        
+        /* История */
+        .history-container {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .history-title {
             color: gold;
+            margin-bottom: 15px;
+            font-size: 16px;
         }
         
-        .ton-value {
-            color: #45aaf2;
-            font-size: 18px;
-            font-weight: 700;
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
         
-        .deposit-btn {
-            background: linear-gradient(45deg, #45aaf2, #2d98da);
-            border: none;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 10px;
+        .history-winner {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .winner-name {
             font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 10px;
-            transition: 0.3s;
+            color: #4CAF50;
         }
         
-        .deposit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(69,170,242,0.4);
+        .winner-amount {
+            color: #45aaf2;
+        }
+        
+        .winner-percent {
+            color: #888;
+            font-size: 12px;
         }
         
         /* Колесо */
@@ -122,42 +189,27 @@
             border-radius: 15px;
             padding: 20px;
             margin-bottom: 20px;
-            text-align: center;
-        }
-        
-        .wheel-title {
-            font-size: 18px;
-            margin-bottom: 15px;
-            color: gold;
         }
         
         .wheel-sectors {
             display: flex;
-            flex-wrap: wrap;
             gap: 10px;
-            margin-bottom: 20px;
+            margin: 15px 0;
         }
         
         .sector-btn {
             flex: 1;
-            min-width: 70px;
-            padding: 12px 5px;
+            padding: 12px;
             border: none;
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
-            transition: 0.3s;
         }
         
-        .sector-btn.x2 { background: #4CAF50; color: white; }
-        .sector-btn.x3 { background: #2196F3; color: white; }
-        .sector-btn.x5 { background: #9C27B0; color: white; }
-        .sector-btn.x10 { background: #f44336; color: white; }
-        
-        .sector-btn:hover {
-            transform: scale(1.05);
-            filter: brightness(1.1);
-        }
+        .sector-btn.x2 { background: #4CAF50; }
+        .sector-btn.x3 { background: #2196F3; }
+        .sector-btn.x5 { background: #9C27B0; }
+        .sector-btn.x10 { background: #f44336; }
         
         .bet-controls {
             display: flex;
@@ -182,61 +234,54 @@
             border-radius: 8px;
             font-weight: 700;
             cursor: pointer;
-            transition: 0.3s;
         }
         
-        .spin-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255,215,0,0.4);
-        }
-        
-        /* PvP секция */
-        .pvp-section {
-            background: rgba(255,255,255,0.05);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .pvp-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-        }
-        
-        .pvp-badge {
-            background: #ff6b6b;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 12px;
-        }
-        
-        .player-row {
-            display: flex;
-            justify-content: space-between;
+        /* Модальное окно */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
             align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            justify-content: center;
         }
         
-        .player-info {
+        .modal-content {
+            background: #1a1f33;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 300px;
+            text-align: center;
+            border: 1px solid gold;
+        }
+        
+        .modal-buttons {
             display: flex;
-            align-items: center;
             gap: 10px;
+            margin-top: 20px;
         }
         
-        .player-avatar-small {
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #667eea, #764ba2);
+        .modal-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
         }
         
-        .chance-badge {
+        .modal-btn.yes {
             background: #4CAF50;
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 11px;
+            color: white;
+        }
+        
+        .modal-btn.no {
+            background: #f44336;
+            color: white;
         }
         
         /* Нижнее меню */
@@ -261,7 +306,6 @@
             color: #888;
             font-size: 12px;
             cursor: pointer;
-            transition: 0.3s;
         }
         
         .menu-item.active {
@@ -272,10 +316,8 @@
             font-size: 20px;
         }
         
-        /* Секции */
         .section {
             display: none;
-            margin-bottom: 80px;
         }
         
         .section.active {
@@ -284,134 +326,121 @@
     </style>
 </head>
 <body>
-    <!-- Хедер с профилем -->
     <div class="header">
         <div class="user-info">
             <div class="avatar"></div>
             <span class="username" id="username">@klrpl</span>
         </div>
-        <div class="balance-block" id="tonBalance">0 TON</div>
+        <div class="balance-block" id="balance">1000 💰</div>
     </div>
     
-    <!-- Основной контент -->
     <div class="content">
-        <!-- Секция PvP -->
+        <!-- PvP секция -->
         <div id="pvpSection" class="section active">
-            <div class="pvp-section">
-                <div class="pvp-header">
-                    <span class="pvp-badge">🔴 PvP Турнир</span>
-                    <span>🎁 Банк: 2.5 TON</span>
+            <div class="pvp-container">
+                <div class="game-header">
+                    <span>🎮 ИГРОКИ</span>
+                    <span>ШАНС</span>
                 </div>
                 
                 <div class="player-row">
                     <div class="player-info">
                         <div class="player-avatar-small"></div>
                         <div>
-                            <div>@player1</div>
-                            <div style="font-size: 11px; color: #888;">ставка 0.5 TON</div>
+                            <div class="player-name">@ds_ersh</div>
+                            <div class="pred-game">ПРЕД. ИГРА</div>
                         </div>
                     </div>
-                    <div class="chance-badge">25%</div>
+                    <div class="player-stats">
+                        <span class="ton-amount">+20 ТОН</span>
+                        <span class="chance">65%</span>
+                    </div>
                 </div>
                 
                 <div class="player-row">
                     <div class="player-info">
                         <div class="player-avatar-small"></div>
                         <div>
-                            <div>@player2</div>
-                            <div style="font-size: 11px; color: #888;">ставка 1.5 TON</div>
+                            <div class="player-name">@giftg...</div>
+                            <div class="pred-game">ТОП. ИГРА</div>
                         </div>
                     </div>
-                    <div class="chance-badge" style="background: #f44336;">75%</div>
+                    <div class="player-stats">
+                        <span class="ton-amount">+48603 ТОН</span>
+                        <span class="chance" style="background: #f44336;">82%</span>
+                    </div>
                 </div>
                 
-                <button class="deposit-btn" style="margin-top: 15px;" onclick="joinPvP()">🔴 Присоединиться (0.1 TON)</button>
+                <div class="total-bet">
+                    <span>ВСЕГО 5 TON</span>
+                    <span class="timer">00:23</span>
+                </div>
             </div>
+            
+            <!-- История -->
+            <div class="history-container">
+                <div class="history-title">📜 ИСТОРИЯ ПОБЕД</div>
+                
+                <div id="historyList">
+                    <div class="history-item">
+                        <div class="history-winner">
+                            <div class="player-avatar-small" style="width: 25px; height: 25px;"></div>
+                            <div>
+                                <div class="winner-name">@ds_ersh</div>
+                                <div class="winner-percent">45.45%</div>
+                            </div>
+                        </div>
+                        <div class="winner-amount">9.2 ТОН</div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="spin-btn" style="width: 100%;" onclick="joinGame()">🔴 Присоединиться к игре</button>
         </div>
         
-        <!-- Секция Соло (Колесо) -->
+        <!-- Соло секция с колесом -->
         <div id="soloSection" class="section">
             <div class="wheel-container">
-                <div class="wheel-title">🎡 КОЛЕСО ФОРТУНЫ</div>
+                <h3 style="text-align: center; color: gold; margin-bottom: 15px;">🎡 КОЛЕСО</h3>
                 
                 <div class="wheel-sectors">
-                    <button class="sector-btn x2" onclick="selectSector('x2')">x2</button>
-                    <button class="sector-btn x3" onclick="selectSector('x3')">x3</button>
-                    <button class="sector-btn x5" onclick="selectSector('x5')">x5</button>
-                    <button class="sector-btn x10" onclick="selectSector('x10')">x10</button>
+                    <button class="sector-btn x2" onclick="selectSector(2)">x2</button>
+                    <button class="sector-btn x3" onclick="selectSector(3)">x3</button>
+                    <button class="sector-btn x5" onclick="selectSector(5)">x5</button>
+                    <button class="sector-btn x10" onclick="selectSector(10)">x10</button>
                 </div>
                 
                 <div class="bet-controls">
-                    <input type="number" id="betAmount" class="bet-input" placeholder="Ставка в TON" min="0.1" step="0.1" value="0.1">
-                    <button class="spin-btn" onclick="spinWheel()">🎲 КРУТИТЬ</button>
+                    <input type="number" id="betAmount" class="bet-input" value="10" min="1">
+                    <button class="spin-btn" onclick="spinWheel()">Крутить</button>
                 </div>
                 
-                <div id="wheelResult" style="margin-top: 15px; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px;">
-                    🎯 Начни игру!
-                </div>
+                <div id="wheelResult" style="text-align: center; margin-top: 15px;"></div>
             </div>
         </div>
-        
-        <!-- Секция Розыгрыши -->
-        <div id="giveawaysSection" class="section">
-            <div class="profile-card">
-                <h3 style="margin-bottom: 15px; color: gold;">🎁 Активные розыгрыши</h3>
-                <div class="profile-row">
-                    <span>🎰 Джекпот</span>
-                    <span class="ton-value">15 TON</span>
-                </div>
-                <div class="profile-row">
-                    <span>👥 Участников</span>
-                    <span>24</span>
-                </div>
-                <button class="deposit-btn" style="margin-top: 15px;" onclick="joinGiveaway()">🎁 Участвовать (0.5 TON)</button>
+    </div>
+    
+    <!-- Модальное окно для удвоения -->
+    <div id="doubleModal" class="modal">
+        <div class="modal-content">
+            <div style="font-size: 24px; margin-bottom: 15px;">🎉 ВЫИГРЫШ!</div>
+            <div id="winAmount" style="font-size: 32px; color: gold; margin-bottom: 20px;">9.2 TON</div>
+            <div style="margin-bottom: 20px;">Хотите удвоить ваш выигрыш?</div>
+            <div class="modal-buttons">
+                <button class="modal-btn yes" onclick="confirmDouble()">ДА</button>
+                <button class="modal-btn no" onclick="closeModal()">НЕТ</button>
             </div>
         </div>
-        
-        <!-- Секция Магазин -->
-        <div id="shopSection" class="section">
-            <div class="profile-card">
-                <h3 style="margin-bottom: 15px; color: gold;">🛒 Магазин подарков</h3>
-                <div class="profile-row">
-                    <span>🎁 Обычный подарок</span>
-                    <span class="ton-value">0.5 TON</span>
-                </div>
-                <div class="profile-row">
-                    <span>🎁 Редкий подарок</span>
-                    <span class="ton-value">2 TON</span>
-                </div>
-                <div class="profile-row">
-                    <span>🎁 Легендарный</span>
-                    <span class="ton-value">10 TON</span>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Секция Профиль -->
-        <div id="profileSection" class="section">
-            <div class="profile-card">
-                <div class="profile-row">
-                    <span class="profile-label">👤 Username</span>
-                    <span class="profile-value" id="profileUsername">@klrpl</span>
-                </div>
-                <div class="profile-row">
-                    <span class="profile-label">💰 Баланс TON</span>
-                    <span class="ton-value" id="profileTonBalance">0 TON</span>
-                </div>
-                <div class="profile-row">
-                    <span class="profile-label">🎁 Инвентарь подарков</span>
-                    <span class="profile-value" id="giftInventory">0</span>
-                </div>
-                <div class="profile-row">
-                    <span class="profile-label">👥 Рефералы</span>
-                    <span class="profile-value" id="referrals">0</span>
-                </div>
-                
-                <button class="deposit-btn" onclick="deposit()">💳 Пополнить баланс</button>
-                
-                <div style="margin-top: 15px; text-align: center; font-size: 12px; color: #888;">
-                    Реферальная ссылка: https://t.me/bot?start=ref123
-                </div>
+    </div>
+    
+    <!-- Модальное окно подтверждения -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <div style="font-size: 20px; margin-bottom: 20px;">⚠️ ВЫ УВЕРЕНЫ?</div>
+            <div style="margin-bottom: 20px;">Рискните и попробуйте удвоить!</div>
+            <div class="modal-buttons">
+                <button class="modal-btn yes" onclick="playDouble()">ДА, КРУТИТЬ</button>
+                <button class="modal-btn no" onclick="closeConfirmModal()">НЕТ, ЗАБРАТЬ</button>
             </div>
         </div>
     </div>
@@ -445,116 +474,112 @@
         tg.ready();
         tg.expand();
         
-        let user = tg.initDataUnsafe?.user;
-        if(user) {
-            document.getElementById('username').textContent = '@' + (user.username || user.first_name);
-            document.getElementById('profileUsername').textContent = '@' + (user.username || user.first_name);
-        }
-        
-        let balance = 0;
+        let balance = 1000;
+        let currentWin = 0;
         let selectedMultiplier = 2;
         
         function showSection(section) {
-            // Скрыть все секции
-            document.getElementById('pvpSection').classList.remove('active');
-            document.getElementById('soloSection').classList.remove('active');
-            document.getElementById('giveawaysSection').classList.remove('active');
-            document.getElementById('shopSection').classList.remove('active');
-            document.getElementById('profileSection').classList.remove('active');
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(section + 'Section').classList.add('active');
             
-            // Показать выбранную
-            if(section === 'pvp') document.getElementById('pvpSection').classList.add('active');
-            if(section === 'solo') document.getElementById('soloSection').classList.add('active');
-            if(section === 'giveaways') document.getElementById('giveawaysSection').classList.add('active');
-            if(section === 'shop') document.getElementById('shopSection').classList.add('active');
-            if(section === 'profile') document.getElementById('profileSection').classList.add('active');
-            
-            // Обновить активный пункт меню
-            let items = document.querySelectorAll('.menu-item');
-            items.forEach(item => item.classList.remove('active'));
+            document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
             event.currentTarget.classList.add('active');
-            
-            tg.HapticFeedback.selectionChanged();
         }
         
-        function selectSector(sector) {
-            selectedMultiplier = parseInt(sector.replace('x', ''));
-            tg.HapticFeedback.impactOccurred('light');
+        function selectSector(mult) {
+            selectedMultiplier = mult;
         }
         
         function spinWheel() {
-            let bet = parseFloat(document.getElementById('betAmount').value);
+            let bet = parseInt(document.getElementById('betAmount').value);
             
             if(bet > balance) {
                 document.getElementById('wheelResult').innerHTML = '❌ Недостаточно средств!';
                 return;
             }
             
-            // Честный рандом
-            let random = Math.random();
-            let win = false;
-            
-            // Шансы: x2=45%, x3=30%, x5=15%, x10=10%
-            if(selectedMultiplier === 2 && random < 0.45) win = true;
-            else if(selectedMultiplier === 3 && random < 0.30) win = true;
-            else if(selectedMultiplier === 5 && random < 0.15) win = true;
-            else if(selectedMultiplier === 10 && random < 0.10) win = true;
+            let win = Math.random() < (1 / selectedMultiplier);
             
             if(win) {
-                let winAmount = bet * selectedMultiplier;
-                balance += winAmount - bet;
-                document.getElementById('wheelResult').innerHTML = `✅ ВЫИГРЫШ! +${winAmount} TON (x${selectedMultiplier})`;
-                document.getElementById('tonBalance').innerHTML = balance.toFixed(2) + ' TON';
-                document.getElementById('profileTonBalance').innerHTML = balance.toFixed(2) + ' TON';
+                currentWin = bet * selectedMultiplier;
+                balance = balance - bet + currentWin;
+                document.getElementById('wheelResult').innerHTML = `✅ ВЫИГРЫШ: ${currentWin}`;
+                document.getElementById('balance').innerHTML = balance + ' 💰';
+                
+                // Показать модалку удвоения
+                document.getElementById('winAmount').innerHTML = currentWin + ' TON';
+                document.getElementById('doubleModal').style.display = 'flex';
             } else {
                 balance -= bet;
-                document.getElementById('wheelResult').innerHTML = `❌ ПРОИГРЫШ: -${bet} TON`;
-                document.getElementById('tonBalance').innerHTML = balance.toFixed(2) + ' TON';
-                document.getElementById('profileTonBalance').innerHTML = balance.toFixed(2) + ' TON';
+                document.getElementById('wheelResult').innerHTML = `❌ ПРОИГРЫШ: -${bet}`;
+                document.getElementById('balance').innerHTML = balance + ' 💰';
             }
-            
-            tg.HapticFeedback.impactOccurred('medium');
         }
         
-        function deposit() {
+        function joinGame() {
             tg.showPopup({
-                title: 'Пополнение',
-                message: 'Выберите способ пополнения:',
-                buttons: [
-                    {id: 'ton', type: 'default', text: '💎 TON Coin'},
-                    {id: 'stars', type: 'default', text: '⭐ Telegram Stars'},
-                    {id: 'gift', type: 'default', text: '🎁 Подарок'},
-                    {id: 'cancel', type: 'cancel', text: 'Отмена'}
-                ]
-            }, function(buttonId) {
-                if(buttonId === 'ton') {
-                    tg.showPopup({
-                        title: 'Пополнение TON',
-                        message: 'Выберите сумму:\n\n0.1 TON = 100 фишек\n0.5 TON = 550 фишек\n1 TON = 1200 фишек',
-                        buttons: [
-                            {id: '0.1', type: 'default', text: '0.1 TON'},
-                            {id: '0.5', type: 'default', text: '0.5 TON'},
-                            {id: '1', type: 'default', text: '1 TON'},
-                            {id: 'cancel', type: 'cancel', text: 'Назад'}
-                        ]
-                    }, function(amount) {
-                        if(amount !== 'cancel') {
-                            balance += parseFloat(amount) * 1000;
-                            document.getElementById('tonBalance').innerHTML = balance.toFixed(2) + ' TON';
-                            document.getElementById('profileTonBalance').innerHTML = balance.toFixed(2) + ' TON';
-                            tg.showAlert(`✅ Пополнено на ${amount} TON`);
-                        }
-                    });
-                }
+                title: 'PvP игра',
+                message: 'Вы присоединились к игре!\nСтавка: 10 TON',
+                buttons: [{type: 'ok'}]
             });
         }
         
-        function joinPvP() {
-            tg.showAlert('🔴 Вы присоединились к PvP турниру!');
+        function confirmDouble() {
+            closeModal();
+            document.getElementById('confirmModal').style.display = 'flex';
         }
         
-        function joinGiveaway() {
-            tg.showAlert('🎁 Вы участвуете в розыгрыше!');
+        function playDouble() {
+            closeConfirmModal();
+            
+            // Игра на удвоение
+            let win = Math.random() < 0.5;
+            
+            if(win) {
+                currentWin = currentWin * 2;
+                balance = balance + currentWin;
+                tg.showPopup({
+                    title: '🎉 УДВОЕНИЕ!',
+                    message: `Вы выиграли ${currentWin} TON!`,
+                    buttons: [{type: 'ok'}]
+                });
+            } else {
+                balance -= currentWin;
+                currentWin = 0;
+                tg.showPopup({
+                    title: '❌ ПРОИГРЫШ',
+                    message: 'Вы проиграли удвоение!',
+                    buttons: [{type: 'ok'}]
+                });
+            }
+            
+            document.getElementById('balance').innerHTML = balance + ' 💰';
+        }
+        
+        function closeModal() {
+            document.getElementById('doubleModal').style.display = 'none';
+        }
+        
+        function closeConfirmModal() {
+            document.getElementById('confirmModal').style.display = 'none';
+        }
+        
+        // Добавляем историю побед
+        function addToHistory(winner, amount, percent) {
+            let historyList = document.getElementById('historyList');
+            let newItem = document.createElement('div');
+            newItem.className = 'history-item';
+            newItem.innerHTML = `
+                <div class="history-winner">
+                    <div class="player-avatar-small" style="width: 25px; height: 25px;"></div>
+                    <div>
+                        <div class="winner-name">${winner}</div>
+                        <div class="winner-percent">${percent}</div>
+                    </div>
+                </div>
+                <div class="winner-amount">${amount}</div>
+            `;
+            historyList.insertBefore(newItem, historyList.firstChild);
         }
     </script>
 </body>
