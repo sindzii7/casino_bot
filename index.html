@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rolls Casino</title>
+    <title>Прототип Казино</title>
     <style>
         * {
             margin: 0;
@@ -13,12 +13,13 @@
         }
         
         body {
-            background: linear-gradient(135deg, #0b0f1c, #1a1f33);
+            background: linear-gradient(135deg, #0d0f1c, #1a1f2f);
             color: white;
             min-height: 100vh;
-            padding-bottom: 80px;
+            padding-bottom: 70px;
         }
         
+        /* Шапка */
         .header {
             display: flex;
             justify-content: space-between;
@@ -43,22 +44,25 @@
         
         .username {
             font-weight: 600;
+            font-size: 16px;
         }
         
         .balance-block {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255,215,0,0.15);
             padding: 8px 15px;
             border-radius: 20px;
-            border: 1px solid rgba(255,215,0,0.3);
+            border: 1px solid gold;
             color: gold;
+            font-weight: 600;
         }
         
+        /* Основной контент */
         .content {
             padding: 15px;
         }
         
-        /* PvP секция */
-        .pvp-container {
+        /* Карточка игры */
+        .game-card {
             background: rgba(255,255,255,0.05);
             border-radius: 15px;
             padding: 20px;
@@ -69,9 +73,9 @@
         .game-header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 15px;
             color: #888;
             font-size: 14px;
+            margin-bottom: 15px;
         }
         
         .player-row {
@@ -89,10 +93,10 @@
         .player-info {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
         
-        .player-avatar-small {
+        .player-avatar {
             width: 35px;
             height: 35px;
             border-radius: 50%;
@@ -103,12 +107,12 @@
             font-weight: 600;
         }
         
-        .pred-game {
+        .player-status {
             font-size: 12px;
             color: #888;
         }
         
-        .player-stats {
+        .player-bet {
             text-align: right;
         }
         
@@ -117,32 +121,31 @@
             font-weight: 600;
         }
         
-        .chance {
+        .chance-badge {
             background: #4CAF50;
-            padding: 3px 8px;
+            padding: 4px 8px;
             border-radius: 12px;
             font-size: 12px;
-            margin-left: 10px;
+            margin-left: 8px;
         }
         
-        .total-bet {
+        .total-section {
             display: flex;
             justify-content: space-between;
-            align-items: center;
             margin-top: 15px;
             padding-top: 15px;
             border-top: 1px solid rgba(255,255,255,0.1);
-            font-size: 14px;
         }
         
         .timer {
             background: rgba(255,255,255,0.1);
             padding: 5px 10px;
             border-radius: 15px;
+            font-size: 14px;
         }
         
         /* История */
-        .history-container {
+        .history-card {
             background: rgba(255,255,255,0.05);
             border-radius: 15px;
             padding: 20px;
@@ -159,8 +162,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 8px 0;
+            border-bottom: 1px dashed rgba(255,255,255,0.1);
         }
         
         .history-winner {
@@ -174,44 +177,93 @@
             color: #4CAF50;
         }
         
-        .winner-amount {
-            color: #45aaf2;
-        }
-        
         .winner-percent {
             color: #888;
             font-size: 12px;
         }
         
-        /* Колесо */
-        .wheel-container {
+        .winner-amount {
+            color: #45aaf2;
+            font-weight: 600;
+        }
+        
+        /* РУЛЕТКА */
+        .roulette-card {
             background: rgba(255,255,255,0.05);
             border-radius: 15px;
             padding: 20px;
             margin-bottom: 20px;
         }
         
-        .wheel-sectors {
+        .roulette-title {
+            text-align: center;
+            color: gold;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+        
+        .wheel-display {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 20px;
+            position: relative;
+        }
+        
+        .wheel-svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(0deg);
+            transition: transform 3s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+        }
+        
+        .wheel-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            background: gold;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: black;
+            font-weight: bold;
+            z-index: 10;
+        }
+        
+        .multipliers {
             display: flex;
             gap: 10px;
-            margin: 15px 0;
+            margin: 20px 0;
         }
         
-        .sector-btn {
+        .mult-btn {
             flex: 1;
-            padding: 12px;
+            padding: 15px;
             border: none;
             border-radius: 8px;
-            font-weight: 600;
+            font-weight: bold;
+            font-size: 16px;
             cursor: pointer;
+            transition: 0.3s;
         }
         
-        .sector-btn.x2 { background: #4CAF50; }
-        .sector-btn.x3 { background: #2196F3; }
-        .sector-btn.x5 { background: #9C27B0; }
-        .sector-btn.x10 { background: #f44336; }
+        .mult-btn:hover {
+            transform: scale(1.05);
+        }
         
-        .bet-controls {
+        .mult-btn.x2 { background: #4CAF50; color: white; }
+        .mult-btn.x3 { background: #2196F3; color: white; }
+        .mult-btn.x5 { background: #9C27B0; color: white; }
+        .mult-btn.x10 { background: #f44336; color: white; }
+        .mult-btn.active {
+            box-shadow: 0 0 15px gold;
+            border: 2px solid gold;
+        }
+        
+        .bet-section {
             display: flex;
             gap: 10px;
             margin: 15px 0;
@@ -219,69 +271,101 @@
         
         .bet-input {
             flex: 1;
-            padding: 12px;
+            padding: 15px;
             border-radius: 8px;
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid gold;
             background: rgba(0,0,0,0.3);
             color: white;
+            font-size: 16px;
         }
         
         .spin-btn {
-            padding: 12px 25px;
             background: gold;
-            color: #1a1f33;
+            color: #1a1f2f;
             border: none;
+            padding: 15px 30px;
             border-radius: 8px;
-            font-weight: 700;
+            font-weight: bold;
+            font-size: 18px;
             cursor: pointer;
+            width: 100%;
+            transition: 0.3s;
         }
         
-        /* Модальное окно */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.8);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
+        .spin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px gold;
         }
         
-        .modal-content {
-            background: #1a1f33;
-            padding: 30px;
-            border-radius: 20px;
-            max-width: 300px;
+        .result-display {
             text-align: center;
-            border: 1px solid gold;
-        }
-        
-        .modal-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        .modal-btn {
-            flex: 1;
-            padding: 12px;
-            border: none;
+            padding: 15px;
+            margin-top: 15px;
             border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .win-result {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+            border: 1px solid #4CAF50;
+        }
+        
+        .lose-result {
+            background: rgba(244, 67, 54, 0.2);
+            color: #f44336;
+            border: 1px solid #f44336;
+        }
+        
+        /* Профиль */
+        .profile-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            margin: 0 auto 15px;
+        }
+        
+        .profile-name {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: gold;
+        }
+        
+        .profile-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .profile-label {
+            color: #888;
+        }
+        
+        .profile-value {
             font-weight: 600;
+            color: gold;
+        }
+        
+        .deposit-btn {
+            background: linear-gradient(45deg, #45aaf2, #2d98da);
+            border: none;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 20px;
             cursor: pointer;
-        }
-        
-        .modal-btn.yes {
-            background: #4CAF50;
-            color: white;
-        }
-        
-        .modal-btn.no {
-            background: #f44336;
-            color: white;
         }
         
         /* Нижнее меню */
@@ -306,6 +390,7 @@
             color: #888;
             font-size: 12px;
             cursor: pointer;
+            transition: 0.3s;
         }
         
         .menu-item.active {
@@ -316,6 +401,7 @@
             font-size: 20px;
         }
         
+        /* Секции */
         .section {
             display: none;
         }
@@ -323,9 +409,58 @@
         .section.active {
             display: block;
         }
+        
+        /* Модальные окна */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.9);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background: #1a1f2f;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 300px;
+            text-align: center;
+            border: 2px solid gold;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .modal-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .modal-btn.yes {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .modal-btn.no {
+            background: #f44336;
+            color: white;
+        }
     </style>
 </head>
 <body>
+    <!-- Шапка -->
     <div class="header">
         <div class="user-info">
             <div class="avatar"></div>
@@ -334,57 +469,57 @@
         <div class="balance-block" id="balance">1000 💰</div>
     </div>
     
+    <!-- Основной контент -->
     <div class="content">
-        <!-- PvP секция -->
-        <div id="pvpSection" class="section active">
-            <div class="pvp-container">
+        <!-- Секция Игры (PvP) -->
+        <div id="gameSection" class="section active">
+            <div class="game-card">
                 <div class="game-header">
-                    <span>🎮 ИГРОКИ</span>
+                    <span>ИГРОКИ</span>
                     <span>ШАНС</span>
                 </div>
                 
                 <div class="player-row">
                     <div class="player-info">
-                        <div class="player-avatar-small"></div>
+                        <div class="player-avatar"></div>
                         <div>
                             <div class="player-name">@ds_ersh</div>
-                            <div class="pred-game">ПРЕД. ИГРА</div>
+                            <div class="player-status">ПРЕД. ИГРА</div>
                         </div>
                     </div>
-                    <div class="player-stats">
+                    <div class="player-bet">
                         <span class="ton-amount">+20 ТОН</span>
-                        <span class="chance">65%</span>
+                        <span class="chance-badge">65%</span>
                     </div>
                 </div>
                 
                 <div class="player-row">
                     <div class="player-info">
-                        <div class="player-avatar-small"></div>
+                        <div class="player-avatar"></div>
                         <div>
                             <div class="player-name">@giftg...</div>
-                            <div class="pred-game">ТОП. ИГРА</div>
+                            <div class="player-status">ТОП. ИГРА</div>
                         </div>
                     </div>
-                    <div class="player-stats">
+                    <div class="player-bet">
                         <span class="ton-amount">+48603 ТОН</span>
-                        <span class="chance" style="background: #f44336;">82%</span>
+                        <span class="chance-badge" style="background: #f44336;">82%</span>
                     </div>
                 </div>
                 
-                <div class="total-bet">
-                    <span>ВСЕГО 5 TON</span>
+                <div class="total-section">
+                    <span>ВСЕГО 5 ТОН</span>
                     <span class="timer">00:23</span>
                 </div>
             </div>
             
             <!-- История -->
-            <div class="history-container">
+            <div class="history-card">
                 <div class="history-title">📜 ИСТОРИЯ ПОБЕД</div>
-                
                 <div id="historyList">
                     <div class="history-item">
                         <div class="history-winner">
-                            <div class="player-avatar-small" style="width: 25px; height: 25px;"></div>
+                            <div class="player-avatar" style="width: 25px; height: 25px;"></div>
                             <div>
                                 <div class="winner-name">@ds_ersh</div>
                                 <div class="winner-percent">45.45%</div>
@@ -394,38 +529,104 @@
                     </div>
                 </div>
             </div>
-            
-            <button class="spin-btn" style="width: 100%;" onclick="joinGame()">🔴 Присоединиться к игре</button>
         </div>
         
-        <!-- Соло секция с колесом -->
-        <div id="soloSection" class="section">
-            <div class="wheel-container">
-                <h3 style="text-align: center; color: gold; margin-bottom: 15px;">🎡 КОЛЕСО</h3>
+        <!-- Секция РУЛЕТКА (вместо Соло) -->
+        <div id="rouletteSection" class="section">
+            <div class="roulette-card">
+                <div class="roulette-title">🎡 РУЛЕТКА</div>
                 
-                <div class="wheel-sectors">
-                    <button class="sector-btn x2" onclick="selectSector(2)">x2</button>
-                    <button class="sector-btn x3" onclick="selectSector(3)">x3</button>
-                    <button class="sector-btn x5" onclick="selectSector(5)">x5</button>
-                    <button class="sector-btn x10" onclick="selectSector(10)">x10</button>
+                <div class="multipliers">
+                    <button class="mult-btn x2" onclick="selectMultiplier(2)">x2</button>
+                    <button class="mult-btn x3" onclick="selectMultiplier(3)">x3</button>
+                    <button class="mult-btn x5" onclick="selectMultiplier(5)">x5</button>
+                    <button class="mult-btn x10" onclick="selectMultiplier(10)">x10</button>
                 </div>
                 
-                <div class="bet-controls">
-                    <input type="number" id="betAmount" class="bet-input" value="10" min="1">
-                    <button class="spin-btn" onclick="spinWheel()">Крутить</button>
+                <div class="bet-section">
+                    <input type="number" id="betAmount" class="bet-input" value="10" min="1" placeholder="Ставка">
                 </div>
                 
-                <div id="wheelResult" style="text-align: center; margin-top: 15px;"></div>
+                <button class="spin-btn" onclick="spinRoulette()">🎲 КРУТИТЬ</button>
+                
+                <div id="result" class="result-display">
+                    👆 Сделай ставку
+                </div>
+            </div>
+        </div>
+        
+        <!-- Секция Розыгрыши -->
+        <div id="giveawaysSection" class="section">
+            <div class="game-card">
+                <h3 style="color: gold; margin-bottom: 15px;">🎁 Активные розыгрыши</h3>
+                <div class="player-row">
+                    <span>Джекпот дня</span>
+                    <span class="ton-amount">50 ТОН</span>
+                </div>
+                <div class="player-row">
+                    <span>Участников</span>
+                    <span>23</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Секция Профиль -->
+        <div id="profileSection" class="section">
+            <div class="profile-card">
+                <div class="profile-avatar"></div>
+                <div class="profile-name" id="profileUsername">@klrpl</div>
+                
+                <div class="profile-row">
+                    <span class="profile-label">💰 Баланс</span>
+                    <span class="profile-value" id="profileBalance">1000 ТОН</span>
+                </div>
+                
+                <div class="profile-row">
+                    <span class="profile-label">🎁 Инвентарь</span>
+                    <span class="profile-value">0</span>
+                </div>
+                
+                <div class="profile-row">
+                    <span class="profile-label">👥 Рефералы</span>
+                    <span class="profile-value">0</span>
+                </div>
+                
+                <div class="profile-row">
+                    <span class="profile-label">🏆 Побед</span>
+                    <span class="profile-value">0</span>
+                </div>
+                
+                <button class="deposit-btn" onclick="deposit()">💳 Пополнить</button>
             </div>
         </div>
     </div>
     
-    <!-- Модальное окно для удвоения -->
+    <!-- Нижнее меню (PVP убран, вместо него РУЛЕТКА) -->
+    <div class="bottom-menu">
+        <div class="menu-item active" onclick="showSection('game')">
+            <span class="menu-icon">🎮</span>
+            <span>Игры</span>
+        </div>
+        <div class="menu-item" onclick="showSection('roulette')">
+            <span class="menu-icon">🎡</span>
+            <span>Рулетка</span>
+        </div>
+        <div class="menu-item" onclick="showSection('giveaways')">
+            <span class="menu-icon">🎁</span>
+            <span>Розыгрыши</span>
+        </div>
+        <div class="menu-item" onclick="showSection('profile')">
+            <span class="menu-icon">👤</span>
+            <span>Профиль</span>
+        </div>
+    </div>
+    
+    <!-- Модальное окно удвоения -->
     <div id="doubleModal" class="modal">
         <div class="modal-content">
-            <div style="font-size: 24px; margin-bottom: 15px;">🎉 ВЫИГРЫШ!</div>
-            <div id="winAmount" style="font-size: 32px; color: gold; margin-bottom: 20px;">9.2 TON</div>
-            <div style="margin-bottom: 20px;">Хотите удвоить ваш выигрыш?</div>
+            <h2 style="color: gold;">🎉 ВЫИГРЫШ!</h2>
+            <h1 id="winAmount" style="color: gold; font-size: 36px; margin: 20px;">0</h1>
+            <p style="margin-bottom: 20px;">Хотите удвоить?</p>
             <div class="modal-buttons">
                 <button class="modal-btn yes" onclick="confirmDouble()">ДА</button>
                 <button class="modal-btn no" onclick="closeModal()">НЕТ</button>
@@ -436,36 +637,12 @@
     <!-- Модальное окно подтверждения -->
     <div id="confirmModal" class="modal">
         <div class="modal-content">
-            <div style="font-size: 20px; margin-bottom: 20px;">⚠️ ВЫ УВЕРЕНЫ?</div>
-            <div style="margin-bottom: 20px;">Рискните и попробуйте удвоить!</div>
+            <h2 style="color: #f44336;">⚠️ ВЫ УВЕРЕНЫ?</h2>
+            <p style="margin: 20px;">Рискните и попробуйте удвоить!</p>
             <div class="modal-buttons">
-                <button class="modal-btn yes" onclick="playDouble()">ДА, КРУТИТЬ</button>
-                <button class="modal-btn no" onclick="closeConfirmModal()">НЕТ, ЗАБРАТЬ</button>
+                <button class="modal-btn yes" onclick="playDouble()">ДА</button>
+                <button class="modal-btn no" onclick="closeConfirmModal()">НЕТ</button>
             </div>
-        </div>
-    </div>
-    
-    <!-- Нижнее меню -->
-    <div class="bottom-menu">
-        <div class="menu-item active" onclick="showSection('pvp')">
-            <span class="menu-icon">🔴</span>
-            <span>ПВП</span>
-        </div>
-        <div class="menu-item" onclick="showSection('solo')">
-            <span class="menu-icon">🎮</span>
-            <span>Соло</span>
-        </div>
-        <div class="menu-item" onclick="showSection('giveaways')">
-            <span class="menu-icon">🎁</span>
-            <span>Розыгрыши</span>
-        </div>
-        <div class="menu-item" onclick="showSection('shop')">
-            <span class="menu-icon">🛒</span>
-            <span>Магазин</span>
-        </div>
-        <div class="menu-item" onclick="showSection('profile')">
-            <span class="menu-icon">👤</span>
-            <span>Профиль</span>
         </div>
     </div>
     
@@ -475,9 +652,17 @@
         tg.expand();
         
         let balance = 1000;
+        let currentMultiplier = 2;
         let currentWin = 0;
-        let selectedMultiplier = 2;
         
+        // Данные пользователя
+        let user = tg.initDataUnsafe?.user;
+        if(user) {
+            document.getElementById('username').textContent = '@' + (user.username || user.first_name || 'klrpl');
+            document.getElementById('profileUsername').textContent = '@' + (user.username || user.first_name || 'klrpl');
+        }
+        
+        // Переключение секций
         function showSection(section) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.getElementById(section + 'Section').classList.add('active');
@@ -486,44 +671,55 @@
             event.currentTarget.classList.add('active');
         }
         
-        function selectSector(mult) {
-            selectedMultiplier = mult;
+        // Выбор множителя
+        function selectMultiplier(mult) {
+            currentMultiplier = mult;
+            
+            // Визуальное выделение
+            document.querySelectorAll('.mult-btn').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
         }
         
-        function spinWheel() {
+        // ОСНОВНАЯ РУЛЕТКА
+        function spinRoulette() {
             let bet = parseInt(document.getElementById('betAmount').value);
             
             if(bet > balance) {
-                document.getElementById('wheelResult').innerHTML = '❌ Недостаточно средств!';
+                document.getElementById('result').innerHTML = '❌ Недостаточно средств!';
+                document.getElementById('result').className = 'result-display lose-result';
                 return;
             }
             
-            let win = Math.random() < (1 / selectedMultiplier);
+            // Шансы: x2=50%, x3=33%, x5=20%, x10=10%
+            let winChance = 1 / currentMultiplier;
+            let win = Math.random() < winChance;
             
             if(win) {
-                currentWin = bet * selectedMultiplier;
+                currentWin = bet * currentMultiplier;
                 balance = balance - bet + currentWin;
-                document.getElementById('wheelResult').innerHTML = `✅ ВЫИГРЫШ: ${currentWin}`;
-                document.getElementById('balance').innerHTML = balance + ' 💰';
+                document.getElementById('result').innerHTML = `✅ ВЫИГРЫШ! +${currentWin} ТОН (x${currentMultiplier})`;
+                document.getElementById('result').className = 'result-display win-result';
                 
-                // Показать модалку удвоения
-                document.getElementById('winAmount').innerHTML = currentWin + ' TON';
+                // Обновляем баланс
+                document.getElementById('balance').innerHTML = balance + ' 💰';
+                document.getElementById('profileBalance').innerHTML = balance + ' ТОН';
+                
+                // Показываем модалку удвоения
+                document.getElementById('winAmount').innerHTML = currentWin + ' ТОН';
                 document.getElementById('doubleModal').style.display = 'flex';
+                
+                // Добавляем в историю
+                addToHistory('@' + (user?.username || 'klrpl'), currentWin, '100%');
             } else {
                 balance -= bet;
-                document.getElementById('wheelResult').innerHTML = `❌ ПРОИГРЫШ: -${bet}`;
+                document.getElementById('result').innerHTML = `❌ ПРОИГРЫШ! -${bet} ТОН`;
+                document.getElementById('result').className = 'result-display lose-result';
                 document.getElementById('balance').innerHTML = balance + ' 💰';
+                document.getElementById('profileBalance').innerHTML = balance + ' ТОН';
             }
         }
         
-        function joinGame() {
-            tg.showPopup({
-                title: 'PvP игра',
-                message: 'Вы присоединились к игре!\nСтавка: 10 TON',
-                buttons: [{type: 'ok'}]
-            });
-        }
-        
+        // Удвоение
         function confirmDouble() {
             closeModal();
             document.getElementById('confirmModal').style.display = 'flex';
@@ -532,28 +728,20 @@
         function playDouble() {
             closeConfirmModal();
             
-            // Игра на удвоение
             let win = Math.random() < 0.5;
             
             if(win) {
                 currentWin = currentWin * 2;
-                balance = balance + currentWin;
-                tg.showPopup({
-                    title: '🎉 УДВОЕНИЕ!',
-                    message: `Вы выиграли ${currentWin} TON!`,
-                    buttons: [{type: 'ok'}]
-                });
+                balance += currentWin;
+                alert(`🎉 УДВОЕНИЕ! Вы выиграли ${currentWin} ТОН!`);
             } else {
                 balance -= currentWin;
                 currentWin = 0;
-                tg.showPopup({
-                    title: '❌ ПРОИГРЫШ',
-                    message: 'Вы проиграли удвоение!',
-                    buttons: [{type: 'ok'}]
-                });
+                alert(`❌ ПРОИГРЫШ! Вы потеряли удвоение`);
             }
             
             document.getElementById('balance').innerHTML = balance + ' 💰';
+            document.getElementById('profileBalance').innerHTML = balance + ' ТОН';
         }
         
         function closeModal() {
@@ -564,20 +752,39 @@
             document.getElementById('confirmModal').style.display = 'none';
         }
         
-        // Добавляем историю побед
-        function addToHistory(winner, amount, percent) {
+        function deposit() {
+            tg.showPopup({
+                title: 'Пополнение',
+                message: 'Выберите способ пополнения:',
+                buttons: [
+                    {id: 'ton', type: 'default', text: '💎 TON Coin'},
+                    {id: 'stars', type: 'default', text: '⭐ Stars'},
+                    {id: 'cancel', type: 'cancel', text: 'Отмена'}
+                ]
+            }, function(buttonId) {
+                if(buttonId === 'ton') {
+                    tg.showPopup({
+                        title: 'Пополнение TON',
+                        message: '0.1 TON = 100 фишек\n0.5 TON = 550 фишек\n1 TON = 1200 фишек',
+                        buttons: [{type: 'ok'}]
+                    });
+                }
+            });
+        }
+        
+        function addToHistory(player, amount, percent) {
             let historyList = document.getElementById('historyList');
             let newItem = document.createElement('div');
             newItem.className = 'history-item';
             newItem.innerHTML = `
                 <div class="history-winner">
-                    <div class="player-avatar-small" style="width: 25px; height: 25px;"></div>
+                    <div class="player-avatar" style="width: 25px; height: 25px;"></div>
                     <div>
-                        <div class="winner-name">${winner}</div>
+                        <div class="winner-name">${player}</div>
                         <div class="winner-percent">${percent}</div>
                     </div>
                 </div>
-                <div class="winner-amount">${amount}</div>
+                <div class="winner-amount">${amount} ТОН</div>
             `;
             historyList.insertBefore(newItem, historyList.firstChild);
         }

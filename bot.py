@@ -7,7 +7,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 TOKEN = "8671858126:AAGtX_9zTSB6IJOVAcNdZAELTwAXZe6p7tc"
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # Чистое меню как в Rolls
+    # Кнопки
     keyboard = [
         [InlineKeyboardButton("🎮 Играть!", web_app=WebAppInfo(url="https://sindzii7.github.io/casino_bot/"))],
         [InlineKeyboardButton("📢 Канал", url="https://t.me/your_channel")],
